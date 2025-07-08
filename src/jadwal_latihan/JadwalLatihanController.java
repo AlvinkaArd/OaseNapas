@@ -88,7 +88,7 @@ public class JadwalLatihanController implements Initializable{
 
         data.setDummy();
 
-        collectedData = new DataArray(5);
+        collectedData = new DataArray(9);
 
         // LOAD DATA
 

@@ -69,11 +69,11 @@
                   <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Label text="Tarik (detik):" textFill="#36290c" />
-                        <TextField fx:id="tarikNapasField" prefWidth="70.0" promptText="0" />
+                        <TextField fx:id="tfTarik" prefWidth="70.0" promptText="0" />
                         <Label text="Tahan (detik):" textFill="#36290c" />
-                        <TextField fx:id="tahanNapasField" prefWidth="70.0" promptText="0" />
+                        <TextField fx:id="tfTahan" prefWidth="70.0" promptText="0" />
                         <Label text="Buang (detik):" textFill="#36290c" />
-                        <TextField fx:id="buangNapasField" prefWidth="70.0" promptText="0" />
+                        <TextField fx:id="tfBuang" prefWidth="70.0" promptText="0" />
                      </children>
                   </HBox>
                   <Label text="Musik Latar:" textFill="#36290c" GridPane.rowIndex="4">
@@ -100,7 +100,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfNamaSesi" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
