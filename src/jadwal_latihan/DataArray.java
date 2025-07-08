@@ -4,6 +4,15 @@ public class DataArray {
     private int index;
     private JadwalLatihan[] collectedData;
 
+    
+    public JadwalLatihan[] getCollectedData() {
+        return collectedData;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
     public DataArray(int n) {
         this.index = 0;
         this.collectedData = new JadwalLatihan[n];

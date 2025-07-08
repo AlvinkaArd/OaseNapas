@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chart.FXMLChartController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chart.FXMLChartController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="772.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <ImageView fitHeight="685.0" fitWidth="886.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../WhatsApp%20Image%202025-07-03%20at%2020.15.29.jpeg" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="772.0" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Label text="Riwayat Latihan Pernapasan">
+            <Label text="Riwayat Latihan Pernapasan" textFill="#6e4823">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="20.0" top="10.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <LineChart fx:id="riwayatChart" VBox.vgrow="ALWAYS">
+            <BarChart fx:id="barChartDurasi" prefHeight="400.0" prefWidth="700.0">
               <xAxis>
-                <NumberAxis label="Hari" side="BOTTOM" fx:id="xAxis" />
+                <CategoryAxis label="Sesi Latihan" side="BOTTOM" fx:id="xAxis" />
               </xAxis>
               <yAxis>
                 <NumberAxis fx:id="yAxis" label="Durasi (Menit)" side="LEFT" />
               </yAxis>
-            </LineChart>
-            <Button mnemonicParsing="false" onAction="#kembaliButton" text="Kembali ke Halaman Utama">
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets left="20.0" right="20.0" />
                </VBox.margin>
+            </BarChart>
+            <Button onAction="#kembaliButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: c3b390;" text="Kembali" textFill="#36290c">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </VBox>
    </children>
 </AnchorPane>
