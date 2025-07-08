@@ -67,6 +67,9 @@ public class JadwalLatihanController implements Initializable{
         tcSuaraPemandu.setCellValueFactory(new PropertyValueFactory<>("suaraPemandu"));
         tcWaktuLatihan.setCellValueFactory(new PropertyValueFactory<>("waktuLatihan"));
         tcDurasi.setCellValueFactory(new PropertyValueFactory<>("durasi"));
+        tcTarik.setCellValueFactory(new PropertyValueFactory<>("tarik"));
+        tcTahan.setCellValueFactory(new PropertyValueFactory<>("tahan"));
+        tcBuang.setCellValueFactory(new PropertyValueFactory<>("buang"));
 
         SpinnerValueFactory<Integer> durasiValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0);
         spDurasi.setValueFactory(durasiValueFactory);
@@ -106,7 +109,7 @@ public class JadwalLatihanController implements Initializable{
         data.setData(sesi, musik, gejala, pemandu, waktu, durasi, tarik, tahan, buang);
         tvJadwal.setItems(data.getData());
 
-        collectedData.addData(sesi, musik, pemandu, waktu, durasi);
+        collectedData.addData(sesi, musik, pemandu, waktu, durasi, tarik, tahan, buang);
 
         System.out.println("Jadwal baru ditambahkan");
 
