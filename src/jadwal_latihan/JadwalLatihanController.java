@@ -122,61 +122,128 @@ public class JadwalLatihanController implements Initializable{
 
         System.out.println("Jadwal baru ditambahkan");
 
-        // SAVE DATA ACTION
-        XStream xStream = new XStream(new StaxDriver());
-        
-        // Configure XStream with proper aliases to match the expected XML format
-        xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
-        xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
-        xStream.allowTypesByWildcard(new String[] {
-            "jadwal_latihan.**"
-        });
-
-        // Convert to serialization-safe format
-        DataArrayForSerialization dataToSave = DataArrayForSerialization.fromDataArray(collectedData);
-        String xml = xStream.toXML(dataToSave);
-        FileOutputStream outputDoc;
-
-        try {
-            byte[] collectedData = xml.getBytes("UTF-8");
-            outputDoc = new FileOutputStream("SavedData.xml");
-            outputDoc.write(collectedData);
-            outputDoc.close();
-        } catch (Exception io) {
-            System.err.println("An error occours: " + io.getMessage());
-        }
+        // Save data to XML using the centralized method
+        saveDataToXML();
     }
 
     @FXML
     public void deleteButtonAction(ActionEvent event) {
         JadwalLatihan jadwal = tvJadwal.getSelectionModel().getSelectedItem();
-        data.getData().remove(jadwal);
+        
+        if (jadwal != null) {
+            // Remove from table view
+            data.getData().remove(jadwal);
+            
+            // Remove from collectedData array and rebuild it
+            removeFromCollectedData(jadwal);
+            
+            // Save updated data to XML
+            saveDataToXML();
+            
+            // Clear form selection
+            tvJadwal.getSelectionModel().clearSelection();
+            clearFormButtonAction(event);
+            
+            System.out.println("Jadwal berhasil dihapus dan disimpan ke XML");
+        } else {
+            System.out.println("Tidak ada jadwal yang dipilih untuk dihapus");
+        }
+    }
+    
+    private void removeFromCollectedData(JadwalLatihan jadwalToRemove) {
+        // Create a new array to store the remaining items
+        JadwalLatihan[] newCollectedData = new JadwalLatihan[collectedData.getCollectedData().length];
+        int newIndex = 0;
+        
+        // Copy all items except the one to be removed
+        for (int i = 0; i < collectedData.getIndex(); i++) {
+            JadwalLatihan current = collectedData.getCollectedData()[i];
+            if (current != null && !isSameJadwal(current, jadwalToRemove)) {
+                newCollectedData[newIndex] = current;
+                newIndex++;
+            }
+        }
+        
+        // Update collectedData with the new array
+        collectedData = new DataArray(collectedData.getCollectedData().length);
+        for (int i = 0; i < newIndex; i++) {
+            collectedData.getCollectedData()[i] = newCollectedData[i];
+        }
+        collectedData.setIndex(newIndex);
+    }
+    
+    private boolean isSameJadwal(JadwalLatihan jadwal1, JadwalLatihan jadwal2) {
+        return jadwal1.getNamaSesi().equals(jadwal2.getNamaSesi()) &&
+               jadwal1.getMusikLatar().equals(jadwal2.getMusikLatar()) &&
+               jadwal1.getGejala().equals(jadwal2.getGejala()) &&
+               jadwal1.getSuaraPemandu().equals(jadwal2.getSuaraPemandu()) &&
+               jadwal1.getWaktuLatihan().equals(jadwal2.getWaktuLatihan()) &&
+               jadwal1.getDurasi() == jadwal2.getDurasi() &&
+               jadwal1.getTarik().equals(jadwal2.getTarik()) &&
+               jadwal1.getTahan().equals(jadwal2.getTahan()) &&
+               jadwal1.getBuang().equals(jadwal2.getBuang());
+    }
+    
+    private void saveDataToXML() {
+        try {
+            XStream xStream = new XStream(new StaxDriver());
+            
+            // Configure XStream with proper aliases to match the expected XML format
+            xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
+            xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
+            xStream.allowTypesByWildcard(new String[] {
+                "jadwal_latihan.**"
+            });
+
+            // Convert to serialization-safe format
+            DataArrayForSerialization dataToSave = DataArrayForSerialization.fromDataArray(collectedData);
+            String xml = xStream.toXML(dataToSave);
+            
+            try (FileOutputStream outputDoc = new FileOutputStream("SavedData.xml")) {
+                byte[] xmlBytes = xml.getBytes("UTF-8");
+                outputDoc.write(xmlBytes);
+                System.out.println("Data berhasil disimpan ke SavedData.xml");
+            }
+        } catch (Exception e) {
+            System.err.println("Error saving data to XML: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void updateButtonAction(ActionEvent event) {
         JadwalLatihan jadwal = tvJadwal.getSelectionModel().getSelectedItem();
         
-        String sesi = tfNamaSesi.getText();
-        String musik = cbMusik.getValue();
-        String gejala = cbGejala.getValue();
-        String pemandu = cbSuaraPemandu.getValue();
-        String waktu = tfWaktuLatihan.getText();
-        int durasi = spDurasi.getValue();
-        String tarik = tfTarik.getText();
-        String tahan = tfTahan.getText();
-        String buang = tfBuang.getText();
+        if (jadwal != null) {
+            String sesi = tfNamaSesi.getText();
+            String musik = cbMusik.getValue();
+            String gejala = cbGejala.getValue();
+            String pemandu = cbSuaraPemandu.getValue();
+            String waktu = tfWaktuLatihan.getText();
+            int durasi = spDurasi.getValue();
+            String tarik = tfTarik.getText();
+            String tahan = tfTahan.getText();
+            String buang = tfBuang.getText();
 
-        jadwal.setNamaSesi(sesi);
-        jadwal.setMusikLatar(musik);
-        jadwal.setGejala(gejala);
-        jadwal.setSuaraPemandu(pemandu);
-        jadwal.setWaktuLatihan(waktu);
-        jadwal.setDurasi(durasi);
-        jadwal.setTarik(tarik);
-        jadwal.setTahan(tahan);
-        jadwal.setBuang(buang);
-        tvJadwal.refresh();
+            jadwal.setNamaSesi(sesi);
+            jadwal.setMusikLatar(musik);
+            jadwal.setGejala(gejala);
+            jadwal.setSuaraPemandu(pemandu);
+            jadwal.setWaktuLatihan(waktu);
+            jadwal.setDurasi(durasi);
+            jadwal.setTarik(tarik);
+            jadwal.setTahan(tahan);
+            jadwal.setBuang(buang);
+            
+            tvJadwal.refresh();
+            
+            // Save updated data to XML
+            saveDataToXML();
+            
+            System.out.println("Jadwal berhasil diperbarui dan disimpan ke XML");
+        } else {
+            System.out.println("Tidak ada jadwal yang dipilih untuk diperbarui");
+        }
     }
 
     @FXML
