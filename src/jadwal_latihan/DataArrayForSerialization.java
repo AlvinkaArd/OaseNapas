@@ -1,15 +1,15 @@
 package jadwal_latihan;
 
 /**
- * Simple data array for XML serialization
- * Uses JadwalLatihanData instead of JadwalLatihan to avoid JavaFX property serialization issues
+ * Array data sederhana untuk serialisasi XML
+ * Menggunakan JadwalLatihanData sebagai ganti JadwalLatihan untuk menghindari masalah serialisasi properti JavaFX
  */
 public class DataArrayForSerialization {
     private int index;
     private JadwalLatihanData[] collectedData;
 
     public DataArrayForSerialization() {
-        // Default constructor for XStream
+        // Konstruktor default untuk XStream
     }
 
     public DataArrayForSerialization(int n) {
@@ -17,7 +17,7 @@ public class DataArrayForSerialization {
         this.collectedData = new JadwalLatihanData[n];
     }
 
-    // Convert from DataArray
+    // Konversi dari DataArray
     public static DataArrayForSerialization fromDataArray(DataArray dataArray) {
         DataArrayForSerialization result = new DataArrayForSerialization(dataArray.getIndex());
         result.index = dataArray.getIndex();
@@ -31,7 +31,7 @@ public class DataArrayForSerialization {
         return result;
     }
 
-    // Convert to DataArray
+    // Konversi ke DataArray
     public DataArray toDataArray() {
         DataArray result = new DataArray(index);
         result.setIndex(this.index);
@@ -44,7 +44,7 @@ public class DataArrayForSerialization {
         return result;
     }
 
-    // Getters and setters
+    // getter dan setter
     public int getIndex() { return index; }
     public void setIndex(int index) { this.index = index; }
 

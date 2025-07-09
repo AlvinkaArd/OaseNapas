@@ -1,66 +1,67 @@
 package chart;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
+import java.util.logging.Logger;
 
 import jadwal_latihan.DataArray;
-import jadwal_latihan.DataArrayForSerialization;
 import jadwal_latihan.JadwalLatihan;
-import jadwal_latihan.JadwalLatihanData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
+import utils.Constants;
+import utils.NavigationUtil;
+import utils.XmlUtil;
 
+/**
+ * Controller untuk halaman chart/statistik yang menampilkan riwayat latihan
+ */
 public class FXMLChartController implements Initializable {
+    
+    private static final Logger LOGGER = Logger.getLogger(FXMLChartController.class.getName());
 
     @FXML
     private BarChart<String, Number> barChartDurasi;
 
     @FXML
-    private javafx.scene.chart.CategoryAxis xAxis;
+    private CategoryAxis xAxis;
 
     @FXML
-    private javafx.scene.chart.NumberAxis yAxis;
+    private NumberAxis yAxis;
 
     private DataArray collectedData;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setupChart();
+        loadDataAndPopulateChart();
+    }
+    
+    /**
+     * Setup judul chart dan label sumbu
+     */
+    private void setupChart() {
         barChartDurasi.setTitle("Durasi Latihan Berdasarkan Sesi");
         xAxis.setLabel("Nama Sesi");
         yAxis.setLabel("Durasi (Menit)");
-
-        XStream xStream = new XStream(new StaxDriver());
-
-        xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
-        xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
-
-        xStream.allowTypesByWildcard(new String[] {
-            "jadwal_latihan.**"
-        });
-
-        try {
-            FileInputStream fis = new FileInputStream("SavedData.xml");
-            DataArrayForSerialization loadedData = (DataArrayForSerialization) xStream.fromXML(fis);
-            collectedData = loadedData.toDataArray();
-            fis.close();
-        } catch (Exception e) {
-            System.err.println("Error saat memuat data: " + e.getMessage());
-            collectedData = new DataArray(5);
-        }
-
+    }
+    
+    /**
+     * Muat data dari file XML dan isi chart
+     */
+    private void loadDataAndPopulateChart() {
+        collectedData = XmlUtil.loadDataFromXml(Constants.DATA_FILE);
+        populateChart();
+    }
+    
+    /**
+     * Isi chart dengan data dari collectedData
+     */
+    private void populateChart() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Durasi Latihan");
 
@@ -72,18 +73,15 @@ public class FXMLChartController implements Initializable {
                 }
             }
         }
+        
+        barChartDurasi.getData().clear();
         barChartDurasi.getData().add(series);
+        
+        LOGGER.info("Chart diisi dengan " + series.getData().size() + " titik data");
     }
 
     @FXML
-    public void kembaliButton(ActionEvent event) throws IOException {
-        Parent scene2 = FXMLLoader.load(getClass().getResource("/main_page/FXMLMainPage.fxml"));
-        Scene scene = new Scene(scene2);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Main Page");
-        stage.show();
-        System.out.println("Kembali ke halaman utama dari Riwayat Latihan");
+    public void kembaliButton(ActionEvent event) {
+        NavigationUtil.navigateToMainPage(event);
     }
 }

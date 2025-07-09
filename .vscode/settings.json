@@ -1,9 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "src"
-    ],
-    "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "/home/zan/playground/OaseNapas/lib/xstream-1.4.21.jar"
-    ]
-}

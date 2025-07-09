@@ -1,9 +1,9 @@
 package jadwal_latihan;
 
 /**
- * Simple data transfer object for XML serialization
- * This class uses plain Java fields instead of JavaFX properties
- * to avoid module access issues with XStream
+ * Objek transfer data sederhana untuk serialisasi XML
+ * Kelas ini menggunakan field Java biasa sebagai ganti properti JavaFX
+ * untuk menghindari masalah akses modul dengan XStream
  */
 public class JadwalLatihanData {
     private String namaSesi;
@@ -17,7 +17,7 @@ public class JadwalLatihanData {
     private int durasi;
 
     public JadwalLatihanData() {
-        // Default constructor for XStream
+        // Konstruktor default untuk XStream
     }
 
     public JadwalLatihanData(String namaSesi, String musikLatar, String gejala, String suaraPemandu, 
@@ -33,7 +33,7 @@ public class JadwalLatihanData {
         this.buang = buang;
     }
 
-    // Create from JadwalLatihan
+    // Buat dari JadwalLatihan
     public static JadwalLatihanData fromJadwalLatihan(JadwalLatihan jadwal) {
         return new JadwalLatihanData(
             jadwal.getNamaSesi(),
@@ -48,13 +48,13 @@ public class JadwalLatihanData {
         );
     }
 
-    // Convert to JadwalLatihan
+    // Konversi ke JadwalLatihan
     public JadwalLatihan toJadwalLatihan() {
         return new JadwalLatihan(namaSesi, musikLatar, gejala, suaraPemandu, 
                                waktuLatihan, durasi, tarik, tahan, buang);
     }
 
-    // Getters and setters
+    //  getter & setter
     public String getNamaSesi() { return namaSesi; }
     public void setNamaSesi(String namaSesi) { this.namaSesi = namaSesi; }
 

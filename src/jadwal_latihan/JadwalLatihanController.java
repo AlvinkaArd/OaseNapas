@@ -1,20 +1,12 @@
 package jadwal_latihan;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -22,11 +14,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import utils.Constants;
+import utils.NavigationUtil;
+import utils.XmlUtil;
 
-public class JadwalLatihanController implements Initializable{
-    JadwalLatihanList data;
-    DataArray collectedData;
+/**
+ * Controller untuk halaman manajemen jadwal latihan pernapasan
+ */
+public class JadwalLatihanController implements Initializable {
+    
+    private static final Logger LOGGER = Logger.getLogger(JadwalLatihanController.class.getName());
+    
+    private JadwalLatihanList data;
+    private DataArray collectedData;
 
     @FXML
     private TableView<JadwalLatihan> tvJadwal;
@@ -35,32 +35,31 @@ public class JadwalLatihanController implements Initializable{
     private Spinner<Integer> spDurasi;
 
     @FXML
-    private TextField tfTarik; 
-    @FXML
-    private TextField tfTahan;
-    @FXML
-    private TextField tfBuang; 
-
-    @FXML
-    private TextField tfNamaSesi; 
-    
-    @FXML
-    private TextField tfWaktuLatihan;
+    private TextField tfTarik, tfTahan, tfBuang, tfNamaSesi, tfWaktuLatihan;
 
     @FXML
     private ChoiceBox<String> cbGejala, cbMusik, cbSuaraPemandu;
 
     @FXML
-    private TableColumn<JadwalLatihan, String> tcNamaSesi, tcGejala, tcMusik, tcSuaraPemandu, tcWaktuLatihan;
+    private TableColumn<JadwalLatihan, String> tcNamaSesi, tcGejala, tcMusik, tcSuaraPemandu, 
+                                               tcWaktuLatihan, tcTarik, tcTahan, tcBuang;
     
-    @FXML
-    private TableColumn<JadwalLatihan, String> tcTarik, tcTahan, tcBuang;
-
     @FXML
     private TableColumn<JadwalLatihan, Integer> tcDurasi;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initializeTableColumns();
+        initializeDurationSpinner();
+        initializeChoiceBoxes();
+        initializeData();
+        setupTableSelectionListener();
+    }
+    
+    /**
+     * Inisialisasi factory nilai kolom tabel
+     */
+    private void initializeTableColumns() {
         tcNamaSesi.setCellValueFactory(new PropertyValueFactory<>("namaSesi"));
         tcGejala.setCellValueFactory(new PropertyValueFactory<>("gejala"));
         tcMusik.setCellValueFactory(new PropertyValueFactory<>("musikLatar"));
@@ -70,92 +69,215 @@ public class JadwalLatihanController implements Initializable{
         tcTarik.setCellValueFactory(new PropertyValueFactory<>("tarik"));
         tcTahan.setCellValueFactory(new PropertyValueFactory<>("tahan"));
         tcBuang.setCellValueFactory(new PropertyValueFactory<>("buang"));
-
-        SpinnerValueFactory<Integer> durasiValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0);
+    }
+    
+    /**
+     * Inisialisasi spinner durasi
+     */
+    private void initializeDurationSpinner() {
+        SpinnerValueFactory<Integer> durasiValueFactory = 
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                Constants.MIN_DURASI, Constants.MAX_DURASI, Constants.DEFAULT_DURASI);
         spDurasi.setValueFactory(durasiValueFactory);
-
+    }
+    
+    /**
+     * Inisialisasi choice box dengan nilai default
+     */
+    private void initializeChoiceBoxes() {
         cbGejala.setValue("Stress");
-        cbGejala.getItems().addAll("Stress","Sulit Tidur", "Kecemasan");
+        cbGejala.getItems().addAll("Stress", "Sulit Tidur", "Kecemasan");
 
-        cbMusik.setValue("Tanpa suara latar");
-        cbMusik.getItems().addAll("Tanpa suara latar","Suara hujan", "Suasana hutan");
+        cbMusik.setValue(Constants.DEFAULT_MUSIK);
+        cbMusik.getItems().addAll(Constants.MUSIK_OPTIONS);
 
-        cbSuaraPemandu.setValue("Pria");
-        cbSuaraPemandu.getItems().addAll("Pria", "Wanita");
-
+        cbSuaraPemandu.setValue(Constants.DEFAULT_SUARA_PEMANDU);
+        cbSuaraPemandu.getItems().addAll(Constants.SUARA_PEMANDU_OPTIONS);
+    }
+    
+    /**
+     * Inisialisasi struktur data dan muat data yang tersimpan
+     */
+    private void initializeData() {
         data = new JadwalLatihanList();
         tvJadwal.setItems(data.getData());
-
-        // Add selection listener to table
+        collectedData = new DataArray(Constants.DEFAULT_ARRAY_SIZE);
+        loadSavedData();
+    }
+    
+    /**
+     * Setup listener seleksi tabel
+     */
+    private void setupTableSelectionListener() {
         tvJadwal.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                tableRowSelected();
+                populateFormFromSelection(newSelection);
             }
         });
-
-        data.setDummy();
-
-        collectedData = new DataArray(9);
-
-        // LOAD DATA
-        loadSavedData();
-
     }
 
     @FXML
     public void addButtonAction(ActionEvent event) {
-        String sesi = tfNamaSesi.getText();
+        if (!validateFormData()) {
+            return;
+        }
+        
+        String sesi = tfNamaSesi.getText().trim();
         String musik = cbMusik.getValue();
         String gejala = cbGejala.getValue();
         String pemandu = cbSuaraPemandu.getValue();
-        String waktu = tfWaktuLatihan.getText();
+        String waktu = tfWaktuLatihan.getText().trim();
         int durasi = spDurasi.getValue();
-        String tarik = tfTarik.getText();
-        String tahan = tfTahan.getText();
-        String buang = tfBuang.getText();
+        String tarik = tfTarik.getText().trim();
+        String tahan = tfTahan.getText().trim();
+        String buang = tfBuang.getText().trim();
 
-        data.setData(sesi, musik, gejala, pemandu, waktu, durasi, tarik, tahan, buang);
-        tvJadwal.setItems(data.getData());
-
+        data.addData(sesi, musik, gejala, pemandu, waktu, durasi, tarik, tahan, buang);
         collectedData.addData(sesi, musik, gejala, pemandu, waktu, durasi, tarik, tahan, buang);
-        collectedData.incrementIndex();
 
-        System.out.println("Jadwal baru ditambahkan");
-
-        // Save data to XML using the centralized method
         saveDataToXML();
+        clearFormButtonAction(event);
+        LOGGER.info("Jadwal baru berhasil ditambahkan");
     }
 
     @FXML
     public void deleteButtonAction(ActionEvent event) {
-        JadwalLatihan jadwal = tvJadwal.getSelectionModel().getSelectedItem();
+        JadwalLatihan selectedJadwal = tvJadwal.getSelectionModel().getSelectedItem();
         
-        if (jadwal != null) {
-            // Remove from table view
-            data.getData().remove(jadwal);
-            
-            // Remove from collectedData array and rebuild it
-            removeFromCollectedData(jadwal);
-            
-            // Save updated data to XML
+        if (selectedJadwal != null) {
+            data.getData().remove(selectedJadwal);
+            removeFromCollectedData(selectedJadwal);
             saveDataToXML();
             
-            // Clear form selection
             tvJadwal.getSelectionModel().clearSelection();
             clearFormButtonAction(event);
-            
-            System.out.println("Jadwal berhasil dihapus dan disimpan ke XML");
+            LOGGER.info("Jadwal berhasil dihapus");
         } else {
-            System.out.println("Tidak ada jadwal yang dipilih untuk dihapus");
+            LOGGER.warning("Tidak ada jadwal yang dipilih untuk dihapus");
+        }
+    }
+
+    @FXML
+    public void updateButtonAction(ActionEvent event) {
+        JadwalLatihan selectedJadwal = tvJadwal.getSelectionModel().getSelectedItem();
+        
+        if (selectedJadwal != null && validateFormData()) {
+            updateJadwalFromForm(selectedJadwal);
+            updateCollectedData(selectedJadwal);
+            
+            tvJadwal.refresh();
+            saveDataToXML();
+            LOGGER.info("Jadwal berhasil diperbarui");
+        } else if (selectedJadwal == null) {
+            LOGGER.warning("Tidak ada jadwal yang dipilih untuk diperbarui");
+        }
+    }
+
+    @FXML
+    public void kembaliButton(ActionEvent event) {
+        NavigationUtil.navigateToMainPage(event);
+    }
+
+    @FXML
+    public void loadDataButtonAction(ActionEvent event) {
+        data.clear();
+        collectedData = new DataArray(Constants.DEFAULT_ARRAY_SIZE);
+        loadSavedData();
+        LOGGER.info("Data dimuat ulang dari file XML");
+    }
+
+    @FXML
+    public void clearFormButtonAction(ActionEvent event) {
+        clearFormFields();
+        tvJadwal.getSelectionModel().clearSelection();
+        LOGGER.info("Form telah dibersihkan");
+    }
+    
+    /**
+     * Validasi data form sebelum diproses
+     * @return true jika data valid, false jika tidak
+     */
+    private boolean validateFormData() {
+        if (tfNamaSesi.getText().trim().isEmpty()) {
+            LOGGER.warning("Nama sesi tidak boleh kosong");
+            return false;
+        }
+        if (tfWaktuLatihan.getText().trim().isEmpty()) {
+            LOGGER.warning("Waktu latihan tidak boleh kosong");
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Perbarui objek JadwalLatihan dari data form
+     * @param jadwal Objek yang akan diperbarui
+     */
+    private void updateJadwalFromForm(JadwalLatihan jadwal) {
+        jadwal.setNamaSesi(tfNamaSesi.getText().trim());
+        jadwal.setMusikLatar(cbMusik.getValue());
+        jadwal.setGejala(cbGejala.getValue());
+        jadwal.setSuaraPemandu(cbSuaraPemandu.getValue());
+        jadwal.setWaktuLatihan(tfWaktuLatihan.getText().trim());
+        jadwal.setDurasi(spDurasi.getValue());
+        jadwal.setTarik(tfTarik.getText().trim());
+        jadwal.setTahan(tfTahan.getText().trim());
+        jadwal.setBuang(tfBuang.getText().trim());
+    }
+    
+    /**
+     * Perbarui entri yang sesuai di collectedData
+     * @param updatedJadwal Objek jadwal yang telah diperbarui
+     */
+    private void updateCollectedData(JadwalLatihan updatedJadwal) {
+        for (int i = 0; i < collectedData.getIndex(); i++) {
+            JadwalLatihan current = collectedData.getCollectedData()[i];
+            if (current != null && isSameJadwal(current, updatedJadwal)) {
+                collectedData.getCollectedData()[i] = updatedJadwal;
+                break;
+            }
         }
     }
     
+    /**
+     * Isi field form dari item tabel yang dipilih
+     * @param selectedItem Objek JadwalLatihan yang dipilih
+     */
+    private void populateFormFromSelection(JadwalLatihan selectedItem) {
+        tfNamaSesi.setText(selectedItem.getNamaSesi());
+        cbMusik.setValue(selectedItem.getMusikLatar());
+        cbGejala.setValue(selectedItem.getGejala());
+        cbSuaraPemandu.setValue(selectedItem.getSuaraPemandu());
+        tfWaktuLatihan.setText(selectedItem.getWaktuLatihan());
+        spDurasi.getValueFactory().setValue(selectedItem.getDurasi());
+        tfTarik.setText(selectedItem.getTarik());
+        tfTahan.setText(selectedItem.getTahan());
+        tfBuang.setText(selectedItem.getBuang());
+    }
+    
+    /**
+     * Bersihkan semua field form ke nilai default
+     */
+    private void clearFormFields() {
+        tfNamaSesi.clear();
+        cbMusik.setValue(Constants.DEFAULT_MUSIK);
+        cbGejala.setValue("Stress");
+        cbSuaraPemandu.setValue(Constants.DEFAULT_SUARA_PEMANDU);
+        tfWaktuLatihan.clear();
+        spDurasi.getValueFactory().setValue(Constants.DEFAULT_DURASI);
+        tfTarik.clear();
+        tfTahan.clear();
+        tfBuang.clear();
+    }
+    
+    /**
+     * Hapus jadwal dari collectedData
+     * @param jadwalToRemove Jadwal yang akan dihapus
+     */
     private void removeFromCollectedData(JadwalLatihan jadwalToRemove) {
-        // Create a new array to store the remaining items
         JadwalLatihan[] newCollectedData = new JadwalLatihan[collectedData.getCollectedData().length];
         int newIndex = 0;
         
-        // Copy all items except the one to be removed
         for (int i = 0; i < collectedData.getIndex(); i++) {
             JadwalLatihan current = collectedData.getCollectedData()[i];
             if (current != null && !isSameJadwal(current, jadwalToRemove)) {
@@ -164,14 +286,17 @@ public class JadwalLatihanController implements Initializable{
             }
         }
         
-        // Update collectedData with the new array
         collectedData = new DataArray(collectedData.getCollectedData().length);
-        for (int i = 0; i < newIndex; i++) {
-            collectedData.getCollectedData()[i] = newCollectedData[i];
-        }
+        System.arraycopy(newCollectedData, 0, collectedData.getCollectedData(), 0, newIndex);
         collectedData.setIndex(newIndex);
     }
     
+    /**
+     * Periksa apakah dua objek JadwalLatihan sama
+     * @param jadwal1 Jadwal pertama
+     * @param jadwal2 Jadwal kedua
+     * @return true jika keduanya mewakili data yang sama
+     */
     private boolean isSameJadwal(JadwalLatihan jadwal1, JadwalLatihan jadwal2) {
         return jadwal1.getNamaSesi().equals(jadwal2.getNamaSesi()) &&
                jadwal1.getMusikLatar().equals(jadwal2.getMusikLatar()) &&
@@ -184,283 +309,37 @@ public class JadwalLatihanController implements Initializable{
                jadwal1.getBuang().equals(jadwal2.getBuang());
     }
     
+    /**
+     * Simpan data ke file XML menggunakan kelas utilitas
+     */
     private void saveDataToXML() {
-        try {
-            XStream xStream = new XStream(new StaxDriver());
-            
-            // Configure XStream with proper aliases to match the expected XML format
-            xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
-            xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
-            xStream.allowTypesByWildcard(new String[] {
-                "jadwal_latihan.**"
-            });
-
-            // Convert to serialization-safe format
-            DataArrayForSerialization dataToSave = DataArrayForSerialization.fromDataArray(collectedData);
-            String xml = xStream.toXML(dataToSave);
-            
-            try (FileOutputStream outputDoc = new FileOutputStream("SavedData.xml")) {
-                byte[] xmlBytes = xml.getBytes("UTF-8");
-                outputDoc.write(xmlBytes);
-                System.out.println("Data berhasil disimpan ke SavedData.xml");
-            }
-        } catch (Exception e) {
-            System.err.println("Error saving data to XML: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void updateButtonAction(ActionEvent event) {
-        JadwalLatihan jadwal = tvJadwal.getSelectionModel().getSelectedItem();
-        
-        if (jadwal != null) {
-            String sesi = tfNamaSesi.getText();
-            String musik = cbMusik.getValue();
-            String gejala = cbGejala.getValue();
-            String pemandu = cbSuaraPemandu.getValue();
-            String waktu = tfWaktuLatihan.getText();
-            int durasi = spDurasi.getValue();
-            String tarik = tfTarik.getText();
-            String tahan = tfTahan.getText();
-            String buang = tfBuang.getText();
-
-            jadwal.setNamaSesi(sesi);
-            jadwal.setMusikLatar(musik);
-            jadwal.setGejala(gejala);
-            jadwal.setSuaraPemandu(pemandu);
-            jadwal.setWaktuLatihan(waktu);
-            jadwal.setDurasi(durasi);
-            jadwal.setTarik(tarik);
-            jadwal.setTahan(tahan);
-            jadwal.setBuang(buang);
-            
-            tvJadwal.refresh();
-            
-            // Save updated data to XML
-            saveDataToXML();
-            
-            System.out.println("Jadwal berhasil diperbarui dan disimpan ke XML");
+        if (XmlUtil.saveDataToXml(collectedData, Constants.DATA_FILE)) {
+            LOGGER.info("Data berhasil disimpan ke XML");
         } else {
-            System.out.println("Tidak ada jadwal yang dipilih untuk diperbarui");
+            LOGGER.warning("Gagal menyimpan data ke XML");
         }
     }
 
-    @FXML
-    public void kembaliButton(ActionEvent event) throws IOException {
-        Parent scene2 = FXMLLoader.load(getClass().getResource("/main_page/FXMLMainPage.fxml"));
-        Scene scene = new Scene(scene2);
-
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Main Page");
-        stage.show();
-        System.out.println("Ke halaman utama");
-    }
-
-    @FXML
-    public void loadDataButtonAction(ActionEvent event) {
-        // Clear existing data first
-        data.getData().clear();
-        collectedData = new DataArray(9);
-        
-        // Load data from file
-        loadSavedData();
-        
-        System.out.println("Data dimuat ulang dari SavedData.xml");
-    }
-
+    /**
+     * Muat data yang tersimpan dari file XML
+     */
     private void loadSavedData() {
-        try {
-            java.io.File file = new java.io.File("SavedData.xml");
-            if (file.exists()) {
-                XStream xStream = new XStream(new StaxDriver());
-                
-                // Configure XStream with the same aliases used for saving
-                xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
-                xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
-                xStream.allowTypesByWildcard(new String[] {
-                    "jadwal_latihan.**"
-                });
-                
-                // Try to handle security settings for newer XStream versions
-                try {
-                    XStream.setupDefaultSecurity(xStream);
-                    xStream.allowTypes(new Class[]{DataArrayForSerialization.class, JadwalLatihanData.class});
-                } catch (Exception securityException) {
-                    // Ignore security setup errors for older XStream versions
-                }
-                
-                DataArrayForSerialization loadedData = (DataArrayForSerialization) xStream.fromXML(file);
-                DataArray convertedData = loadedData.toDataArray();
-                
-                // Load data into the table view
-                int loadedCount = 0;
-                for (int i = 0; i < convertedData.getIndex(); i++) {
-                    JadwalLatihan jadwal = convertedData.getCollectedData()[i];
-                    if (jadwal != null) {
-                        data.getData().add(jadwal);
-                        // Copy to collectedData as well
-                        if (collectedData.getIndex() < collectedData.getCollectedData().length) {
-                            collectedData.getCollectedData()[collectedData.getIndex()] = jadwal;
-                            collectedData.incrementIndex();
-                        }
-                        loadedCount++;
-                    }
-                }
-                tvJadwal.setItems(data.getData());
-                System.out.println("Data berhasil dimuat dari SavedData.xml: " + loadedCount + " item");
-            } else {
-                System.out.println("File SavedData.xml tidak ditemukan");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading saved data: " + e.getMessage());
-            e.printStackTrace();
-            
-            // Try to load with fallback method for older XML format
-            try {
-                loadSavedDataFallback();
-            } catch (Exception fallbackException) {
-                System.err.println("Fallback loading also failed: " + fallbackException.getMessage());
-            }
-        }
-    }
-    
-    private void loadSavedDataFallback() {
-        // Fallback method to handle old XML format with JavaFX properties
-        try {
-            java.io.File file = new java.io.File("SavedData.xml");
-            if (file.exists()) {
-                // Read as plain text and try to parse manually
-                String xmlContent = java.nio.file.Files.readString(file.toPath());
-                
-                // Simple pattern matching for basic data extraction
-                if (xmlContent.contains("<jadwal__latihan.JadwalLatihan>")) {
-                    System.out.println("Attempting to parse XML manually...");
-                    parseXMLManually(xmlContent);
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Manual XML parsing failed: " + e.getMessage());
-        }
-    }
-    
-    private void parseXMLManually(String xmlContent) {
-        // Simple manual parsing for demonstration
-        // This is a basic implementation - in production, you'd use a proper XML parser
-        try {
-            String[] jadwalBlocks = xmlContent.split("<jadwal__latihan.JadwalLatihan>");
-            
-            for (int i = 1; i < jadwalBlocks.length; i++) { // Skip first empty split
-                String block = jadwalBlocks[i];
-                if (block.contains("</jadwal__latihan.JadwalLatihan>")) {
-                    String content = block.split("</jadwal__latihan.JadwalLatihan>")[0];
-                    
-                    // Extract values using simple string methods
-                    String namaSesi = extractValue(content, "namaSesi");
-                    String musikLatar = extractValue(content, "musikLatar");
-                    String gejala = extractValue(content, "gejala");
-                    String suaraPemandu = extractValue(content, "suaraPemandu");
-                    String waktuLatihan = extractValue(content, "waktuLatihan");
-                    String tarik = extractValue(content, "tarik");
-                    String tahan = extractValue(content, "tahan");
-                    String buang = extractValue(content, "buang");
-                    
-                    int durasi = 0;
-                    try {
-                        String durasiStr = extractValue(content, "durasi");
-                        if (!durasiStr.isEmpty()) {
-                            durasi = Integer.parseInt(durasiStr);
-                        }
-                    } catch (NumberFormatException e) {
-                        durasi = 0;
-                    }
-                    
-                    // Create and add the jadwal
-                    JadwalLatihan jadwal = new JadwalLatihan(namaSesi, musikLatar, gejala, 
-                                                           suaraPemandu, waktuLatihan, durasi, 
-                                                           tarik, tahan, buang);
-                    data.getData().add(jadwal);
-                    
-                    if (collectedData.getIndex() < collectedData.getCollectedData().length) {
-                        collectedData.getCollectedData()[collectedData.getIndex()] = jadwal;
-                        collectedData.incrementIndex();
-                    }
-                }
-            }
-            
-            tvJadwal.setItems(data.getData());
-            System.out.println("Manual parsing completed. Loaded " + (jadwalBlocks.length - 1) + " items");
-            
-        } catch (Exception e) {
-            System.err.println("Manual parsing error: " + e.getMessage());
-        }
-    }
-    
-    private String extractValue(String content, String tagName) {
-        try {
-            // Look for both simple format: <tagName>value</tagName>
-            // and complex format: <tagName><value>content</value></tagName>
-            
-            String startTag = "<" + tagName + ">";
-            String endTag = "</" + tagName + ">";
-            
-            int startIndex = content.indexOf(startTag);
-            if (startIndex == -1) return "";
-            
-            int endIndex = content.indexOf(endTag, startIndex);
-            if (endIndex == -1) return "";
-            
-            String value = content.substring(startIndex + startTag.length(), endIndex).trim();
-            
-            // Check if this is a complex format with nested <value> tags
-            if (value.contains("<value>") && value.contains("</value>")) {
-                int valueStart = value.indexOf("<value>") + 7;
-                int valueEnd = value.indexOf("</value>");
-                if (valueEnd > valueStart) {
-                    return value.substring(valueStart, valueEnd);
-                }
-            }
-            
-            return value;
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    @FXML
-    public void tableRowSelected() {
-        JadwalLatihan selectedItem = tvJadwal.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            // Populate form fields with selected item data
-            tfNamaSesi.setText(selectedItem.getNamaSesi());
-            cbMusik.setValue(selectedItem.getMusikLatar());
-            cbGejala.setValue(selectedItem.getGejala());
-            cbSuaraPemandu.setValue(selectedItem.getSuaraPemandu());
-            tfWaktuLatihan.setText(selectedItem.getWaktuLatihan());
-            spDurasi.getValueFactory().setValue(selectedItem.getDurasi());
-            tfTarik.setText(selectedItem.getTarik());
-            tfTahan.setText(selectedItem.getTahan());
-            tfBuang.setText(selectedItem.getBuang());
-        }
-    }
-
-    @FXML
-    public void clearFormButtonAction(ActionEvent event) {
-        // Clear all form fields
-        tfNamaSesi.clear();
-        cbMusik.setValue("Tanpa suara latar");
-        cbGejala.setValue("Stress");
-        cbSuaraPemandu.setValue("Pria");
-        tfWaktuLatihan.clear();
-        spDurasi.getValueFactory().setValue(0);
-        tfTarik.clear();
-        tfTahan.clear();
-        tfBuang.clear();
+        DataArray loadedData = XmlUtil.loadDataFromXml(Constants.DATA_FILE);
         
-        // Clear table selection
-        tvJadwal.getSelectionModel().clearSelection();
+        int loadedCount = 0;
+        for (int i = 0; i < loadedData.getIndex(); i++) {
+            JadwalLatihan jadwal = loadedData.getCollectedData()[i];
+            if (jadwal != null) {
+                data.getData().add(jadwal);
+                if (!collectedData.isFull()) {
+                    collectedData.getCollectedData()[collectedData.getIndex()] = jadwal;
+                    collectedData.setIndex(collectedData.getIndex() + 1);
+                }
+                loadedCount++;
+            }
+        }
         
-        System.out.println("Form telah dibersihkan");
+        tvJadwal.setItems(data.getData());
+        LOGGER.info("Berhasil memuat " + loadedCount + " item dari XML");
     }
 }
