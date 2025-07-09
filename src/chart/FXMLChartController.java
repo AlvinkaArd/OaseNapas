@@ -36,17 +36,15 @@ public class FXMLChartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inisialisasi Chart
         barChartDurasi.setTitle("Durasi Latihan Berdasarkan Sesi");
         xAxis.setLabel("Nama Sesi");
         yAxis.setLabel("Durasi (Menit)");
 
-        // Muat data dari XML
         XStream xStream = new XStream(new StaxDriver());
-        // Aliaskan kelas agar lebih mudah dibaca di XML
+
         xStream.alias("DataArray", DataArray.class);
         xStream.alias("JadwalLatihan", JadwalLatihan.class);
-        // Izinkan kelas dari paket jadwal_latihan untuk deserialisasi
+
         xStream.allowTypesByWildcard(new String[] {
             "jadwal_latihan.**"
         });
@@ -57,15 +55,12 @@ public class FXMLChartController implements Initializable {
             fis.close();
         } catch (Exception e) {
             System.err.println("Error saat memuat data: " + e.getMessage());
-            // Jika file tidak ditemukan atau error lain, inisialisasi DataArray kosong
             collectedData = new DataArray(5);
         }
 
-        // Tampilkan data di BarChart
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Durasi Latihan");
 
-        // Pastikan collectedData dan array di dalamnya tidak null
         if (collectedData != null && collectedData.getCollectedData() != null) {
             for (int i = 0; i < collectedData.getIndex(); i++) {
                 JadwalLatihan jadwal = collectedData.getCollectedData()[i];
