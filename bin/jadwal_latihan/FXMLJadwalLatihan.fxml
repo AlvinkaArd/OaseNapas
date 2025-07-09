@@ -120,6 +120,14 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
+                  <Button onAction="#loadDataButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #a8c890;" text="Muat Data" textFill="#36290c">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Button onAction="#clearFormButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #f0c890;" text="Bersihkan" textFill="#36290c">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

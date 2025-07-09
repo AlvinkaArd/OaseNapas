@@ -1,1 +1,39 @@
-<?xml version="1.0" ?><jadwal__latihan.DataArray><index>0</index><collectedData><jadwal__latihan.JadwalLatihan><namaSesi><value>xxxx</value><valid>false</valid><name></name></namaSesi><musikLatar><value>Tanpa suara latar</value><valid>false</valid><name></name></musikLatar><gejala><value></value><valid>true</valid><name></name></gejala><suaraPemandu><value>Pria</value><valid>false</valid><name></name></suaraPemandu><waktuLatihan><value>senin</value><valid>false</valid><name></name></waktuLatihan><tarik><value></value><valid>true</valid><name></name></tarik><tahan><value>1</value><valid>false</valid><name></name></tahan><buang><value>1</value><valid>false</valid><name></name></buang><durasi><value>1</value><valid>false</valid><name></name></durasi></jadwal__latihan.JadwalLatihan><null></null><null></null><null></null><null></null><null></null><null></null><null></null><null></null></collectedData></jadwal__latihan.DataArray>
+<?xml version="1.0"?>
+<jadwal____latihan.DataArray>
+    <index>3</index>
+    <collectedData>
+        <jadwal____latihan.JadwalLatihan>
+            <namaSesi>Sesi Pagi</namaSesi>
+            <musikLatar>Tanpa suara latar</musikLatar>
+            <gejala>Stress</gejala>
+            <suaraPemandu>Pria</suaraPemandu>
+            <waktuLatihan>Senin Pagi</waktuLatihan>
+            <tarik>4</tarik>
+            <tahan>4</tahan>
+            <buang>4</buang>
+            <durasi>10</durasi>
+        </jadwal____latihan.JadwalLatihan>
+        <jadwal____latihan.JadwalLatihan>
+            <namaSesi>Sesi Malam</namaSesi>
+            <musikLatar>Suara hujan</musikLatar>
+            <gejala>Kecemasan</gejala>
+            <suaraPemandu>Wanita</suaraPemandu>
+            <waktuLatihan>Malam hari</waktuLatihan>
+            <tarik>6</tarik>
+            <tahan>2</tahan>
+            <buang>8</buang>
+            <durasi>15</durasi>
+        </jadwal____latihan.JadwalLatihan>
+        <jadwal____latihan.JadwalLatihan>
+            <namaSesi>okml</namaSesi>
+            <musikLatar>Tanpa suara latar</musikLatar>
+            <gejala>Stress</gejala>
+            <suaraPemandu>Pria</suaraPemandu>
+            <waktuLatihan></waktuLatihan>
+            <tarik></tarik>
+            <tahan></tahan>
+            <buang></buang>
+            <durasi>0</durasi>
+        </jadwal____latihan.JadwalLatihan>
+    </collectedData>
+</jadwal____latihan.DataArray>

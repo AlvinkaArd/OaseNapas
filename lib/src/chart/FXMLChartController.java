@@ -9,7 +9,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import jadwal_latihan.DataArray;
+import jadwal_latihan.DataArrayForSerialization;
 import jadwal_latihan.JadwalLatihan;
+import jadwal_latihan.JadwalLatihanData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,8 +44,8 @@ public class FXMLChartController implements Initializable {
 
         XStream xStream = new XStream(new StaxDriver());
 
-        xStream.alias("DataArray", DataArray.class);
-        xStream.alias("JadwalLatihan", JadwalLatihan.class);
+        xStream.alias("jadwal__latihan.DataArray", DataArrayForSerialization.class);
+        xStream.alias("jadwal__latihan.JadwalLatihan", JadwalLatihanData.class);
 
         xStream.allowTypesByWildcard(new String[] {
             "jadwal_latihan.**"
@@ -51,7 +53,8 @@ public class FXMLChartController implements Initializable {
 
         try {
             FileInputStream fis = new FileInputStream("SavedData.xml");
-            collectedData = (DataArray) xStream.fromXML(fis);
+            DataArrayForSerialization loadedData = (DataArrayForSerialization) xStream.fromXML(fis);
+            collectedData = loadedData.toDataArray();
             fis.close();
         } catch (Exception e) {
             System.err.println("Error saat memuat data: " + e.getMessage());
