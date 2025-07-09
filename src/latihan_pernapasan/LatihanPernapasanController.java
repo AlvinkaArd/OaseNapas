@@ -32,10 +32,10 @@ public class LatihanPernapasanController implements Initializable {
         spDurasi.setValueFactory(value);
 
         cbPolaPernapasan.setValue("Sulit tidur");
-        cbPolaPernapasan.getItems().addAll("Sulit tidur","Stress","Sulit fokus");
+        cbPolaPernapasan.getItems().addAll("Sulit tidur", "Stress", "Sulit fokus");
 
         cbMusik.setValue("Tanpa suara latar");
-        cbMusik.getItems().addAll("Tanpa suara latar","Suara hujan", "Suasana hutan");
+        cbMusik.getItems().addAll("Tanpa suara latar", "Suara hujan", "Suasana hutan");
 
         cbSuaraPemandu.setValue("Pria");
         cbSuaraPemandu.getItems().addAll("Pria", "Wanita");
@@ -46,7 +46,7 @@ public class LatihanPernapasanController implements Initializable {
         Parent scene2 = FXMLLoader.load(getClass().getResource("/jadwal_latihan/FXMLJadwalLatihan.fxml"));
         Scene scene = new Scene(scene2);
 
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Pengaturan Jadwal Latihan");
         stage.show();
@@ -58,11 +58,23 @@ public class LatihanPernapasanController implements Initializable {
         Parent scene2 = FXMLLoader.load(getClass().getResource("/main_page/FXMLMainPage.fxml"));
         Scene scene = new Scene(scene2);
 
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Main Page");
         stage.show();
         System.out.println("Ke halaman utama");
     }
 
+    @FXML
+    public void mulaiButton(ActionEvent event) throws IOException {
+        Parent scene2 = FXMLLoader.load(getClass().getResource("/chart/FXMLChart.fxml"));
+        Scene scene = new Scene(scene2);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Latihan Pernapasan");
+        stage.show();
+        System.out.println("Ke halaman latihan pernapasan");
+
+    }
 }
