@@ -1,22 +1,23 @@
 package latihan_pernapasan;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import utils.Constants;
+import utils.NavigationUtil;
 
+/**
+ * Controller untuk halaman latihan pernapasan
+ */
 public class LatihanPernapasanController implements Initializable {
+    
     @FXML
     private Spinner<Integer> spDurasi;
 
@@ -28,53 +29,51 @@ public class LatihanPernapasanController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SpinnerValueFactory<Integer> value = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0);
-        spDurasi.setValueFactory(value);
+        initializeDurationSpinner();
+        initializeChoiceBoxes();
+    }
+    
+    /**
+     * Inisialisasi spinner durasi dengan batasan yang sesuai
+     */
+    private void initializeDurationSpinner() {
+        SpinnerValueFactory<Integer> valueFactory = 
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                Constants.MIN_DURASI, Constants.MAX_DURASI, Constants.DEFAULT_DURASI);
+        spDurasi.setValueFactory(valueFactory);
+    }
+    
+    /**
+     * Inisialisasi semua choice box dengan nilai default dan opsi-opsinya
+     */
+    private void initializeChoiceBoxes() {
+        // Choice box pola pernapasan
+        cbPolaPernapasan.setValue(Constants.DEFAULT_POLA_PERNAPASAN);
+        cbPolaPernapasan.getItems().addAll(Constants.POLA_PERNAPASAN_OPTIONS);
 
-        cbPolaPernapasan.setValue("Sulit tidur");
-        cbPolaPernapasan.getItems().addAll("Sulit tidur", "Stress", "Sulit fokus");
+        // Choice box musik latar
+        cbMusik.setValue(Constants.DEFAULT_MUSIK);
+        cbMusik.getItems().addAll(Constants.MUSIK_OPTIONS);
 
-        cbMusik.setValue("Tanpa suara latar");
-        cbMusik.getItems().addAll("Tanpa suara latar", "Suara hujan", "Suasana hutan");
-
-        cbSuaraPemandu.setValue("Pria");
-        cbSuaraPemandu.getItems().addAll("Pria", "Wanita");
+        // Choice box suara pemandu
+        cbSuaraPemandu.setValue(Constants.DEFAULT_SUARA_PEMANDU);
+        cbSuaraPemandu.getItems().addAll(Constants.SUARA_PEMANDU_OPTIONS);
     }
 
     @FXML
-    public void jadwalActionButton(ActionEvent event) throws IOException {
-        Parent scene2 = FXMLLoader.load(getClass().getResource("/jadwal_latihan/FXMLJadwalLatihan.fxml"));
-        Scene scene = new Scene(scene2);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Pengaturan Jadwal Latihan");
-        stage.show();
-        System.out.println("Ke halaman pengaturan jadwal latihan");
+    public void jadwalActionButton(ActionEvent event) {
+        NavigationUtil.navigateToSchedulePage(event);
     }
 
     @FXML
-    public void kembaliButton(ActionEvent event) throws IOException {
-        Parent scene2 = FXMLLoader.load(getClass().getResource("/main_page/FXMLMainPage.fxml"));
-        Scene scene = new Scene(scene2);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Main Page");
-        stage.show();
-        System.out.println("Ke halaman utama");
+    public void kembaliButton(ActionEvent event) {
+        NavigationUtil.navigateToMainPage(event);
     }
 
     @FXML
-    public void mulaiButton(ActionEvent event) throws IOException {
-        Parent scene2 = FXMLLoader.load(getClass().getResource("/chart/FXMLChart.fxml"));
-        Scene scene = new Scene(scene2);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Latihan Pernapasan");
-        stage.show();
-        System.out.println("Ke halaman latihan pernapasan");
-
+    public void mulaiButton(ActionEvent event) {
+        // TODO: Implementasikan logika latihan pernapasan yang sebenarnya
+        // Untuk sementara, navigasi ke halaman chart untuk menampilkan hasil latihan
+        NavigationUtil.navigateToChartPage(event);
     }
 }
