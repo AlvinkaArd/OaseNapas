@@ -6,9 +6,6 @@ import javafx.stage.Stage;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-/**
- * Kelas aplikasi utama untuk Oase Napas - Aplikasi Latihan Pernapasan
- */
 public class GUI_OaseNapas extends Application {
     
     private static final Logger LOGGER = Logger.getLogger(GUI_OaseNapas.class.getName());

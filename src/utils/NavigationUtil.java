@@ -81,4 +81,8 @@ public final class NavigationUtil {
     public static boolean navigateToChartPage(ActionEvent event) {
         return navigateToPage(event, Constants.CHART_FXML, Constants.RIWAYAT_LATIHAN_TITLE);
     }
+
+    public static boolean navigateToMulaiLatihan(ActionEvent event) {
+        return navigateToPage(event, Constants.MULAILATIHAN_FXML, Constants.MULAILATIHAN_TITLE);
+    }
 }

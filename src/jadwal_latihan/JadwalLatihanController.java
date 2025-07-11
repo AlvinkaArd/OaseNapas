@@ -18,9 +18,6 @@ import utils.Constants;
 import utils.NavigationUtil;
 import utils.XmlUtil;
 
-/**
- * Controller untuk halaman manajemen jadwal latihan pernapasan
- */
 public class JadwalLatihanController implements Initializable {
     
     private static final Logger LOGGER = Logger.getLogger(JadwalLatihanController.class.getName());

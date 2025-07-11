@@ -1,8 +1,5 @@
 package utils;
 
-/**
- * Konstanta untuk seluruh aplikasi
- */
 public final class Constants {
     
     // Mencegah instansiasi
@@ -20,13 +17,15 @@ public final class Constants {
     public static final String JADWAL_LATIHAN_FXML = "/jadwal_latihan/FXMLJadwalLatihan.fxml";
     public static final String LATIHAN_PERNAPASAN_FXML = "/latihan_pernapasan/FXMLLatihanPernapasan.fxml";
     public static final String CHART_FXML = "/chart/FXMLChart.fxml";
-    
+    public static final String MULAILATIHAN_FXML = "/main_latihanpernapasan/FXMLMulaiLatihan.fxml";
+
     // Judul jendela
     public static final String MAIN_PAGE_TITLE = "Halaman Utama";
     public static final String JADWAL_LATIHAN_TITLE = "Pengaturan Jadwal Latihan";
     public static final String LATIHAN_PERNAPASAN_TITLE = "Latihan Pernapasan";
     public static final String RIWAYAT_LATIHAN_TITLE = "Riwayat Latihan";
-    
+    public static final String MULAILATIHAN_TITLE = "Mulai Latihan Pernapasan";
+
     // Limit data
     public static final int DEFAULT_ARRAY_SIZE = 10;
     public static final int MIN_DURASI = 1;

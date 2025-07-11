@@ -1,15 +1,21 @@
 package latihan_pernapasan;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import utils.Constants;
 import utils.NavigationUtil;
 
@@ -70,10 +76,15 @@ public class LatihanPernapasanController implements Initializable {
         NavigationUtil.navigateToMainPage(event);
     }
 
+    // @FXML
+    // public void mulaiButton(ActionEvent event) {
+    //     // TODO: Implementasikan logika latihan pernapasan yang sebenarnya
+    //     // Untuk sementara, navigasi ke halaman chart untuk menampilkan hasil latihan
+    //     NavigationUtil.navigateToChartPage(event);
+    // }
+
     @FXML
-    public void mulaiButton(ActionEvent event) {
-        // TODO: Implementasikan logika latihan pernapasan yang sebenarnya
-        // Untuk sementara, navigasi ke halaman chart untuk menampilkan hasil latihan
-        NavigationUtil.navigateToChartPage(event);
+    public void mulaiButton(ActionEvent event) throws IOException {
+        NavigationUtil.navigateToMulaiLatihan(event);
     }
 }
