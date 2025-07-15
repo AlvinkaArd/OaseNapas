@@ -110,7 +110,8 @@ public class JadwalLatihanController implements Initializable {
             if (newSelection != null) {
                 populateFormFromSelection(newSelection);
             }
-        });
+        }
+        );
     }
 
     @FXML

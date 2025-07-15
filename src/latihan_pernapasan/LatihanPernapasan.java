@@ -1,42 +1,33 @@
-package jadwal_latihan;
+package latihan_pernapasan;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import latihan_pernapasan.LatihanPernapasan;
 
-public class JadwalLatihan extends LatihanPernapasan {
-    private final SimpleStringProperty namaSesi;
+public class LatihanPernapasan {
     private final SimpleStringProperty musikLatar;
     private final SimpleStringProperty gejala;
     private final SimpleStringProperty suaraPemandu;
-    private final SimpleStringProperty waktuLatihan;
     private final SimpleStringProperty tarik;
     private final SimpleStringProperty tahan;
     private final SimpleStringProperty buang;
     private final SimpleIntegerProperty durasi;
 
-    public JadwalLatihan(String namaSesi, String musikLatar, String gejala, String suaraPemandu, 
-                        String waktuLatihan, int durasi, String tarik, String tahan, String buang) {
-        this.namaSesi = new SimpleStringProperty(namaSesi);
+    public LatihanPernapasan(String musikLatar, String gejala, String suaraPemandu, 
+                            int durasi, String tarik, String tahan, String buang) {
         this.musikLatar = new SimpleStringProperty(musikLatar);
         this.gejala = new SimpleStringProperty(gejala);
         this.suaraPemandu = new SimpleStringProperty(suaraPemandu);
-        this.waktuLatihan = new SimpleStringProperty(waktuLatihan);
         this.durasi = new SimpleIntegerProperty(durasi);
         this.tarik = new SimpleStringProperty(tarik);
         this.tahan = new SimpleStringProperty(tahan);
         this.buang = new SimpleStringProperty(buang);
     }
 
-    public JadwalLatihan() {
-        this("", "", "", "", "", 0, "", "", "");
+    public LatihanPernapasan() {
+        this("", "", "", 0, "", "", "");
     }
 
     // getter
-    public String getNamaSesi() { 
-        return namaSesi.get(); 
-    }
-
     public String getMusikLatar() { 
         return musikLatar.get(); 
     }
@@ -44,14 +35,9 @@ public class JadwalLatihan extends LatihanPernapasan {
     public String getGejala() { 
         return gejala.get(); 
     }
-    
 
     public String getSuaraPemandu() { 
         return suaraPemandu.get(); 
-    }
-
-    public String getWaktuLatihan() { 
-        return waktuLatihan.get(); 
     }
 
     public int getDurasi() { 
@@ -71,10 +57,6 @@ public class JadwalLatihan extends LatihanPernapasan {
     }
 
     // setter
-    public void setNamaSesi(String namaSesi) { 
-        this.namaSesi.set(namaSesi); 
-    }
-    
     public void setMusikLatar(String musikLatar) {
          this.musikLatar.set(musikLatar); 
     }
@@ -85,10 +67,6 @@ public class JadwalLatihan extends LatihanPernapasan {
 
     public void setSuaraPemandu(String suaraPemandu) { 
         this.suaraPemandu.set(suaraPemandu); 
-    }
-
-    public void setWaktuLatihan(String waktuLatihan) { 
-        this.waktuLatihan.set(waktuLatihan); 
     }
 
     public void setDurasi(int durasi) { 
