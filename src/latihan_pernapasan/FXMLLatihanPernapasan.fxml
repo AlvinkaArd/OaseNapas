@@ -20,7 +20,7 @@
    <children>
       <ImageView fitHeight="814.0" fitWidth="1412.0" layoutX="-355.0" layoutY="-158.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
+            <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
          </image>
       </ImageView>
       <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="472.0" prefWidth="672.0" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">

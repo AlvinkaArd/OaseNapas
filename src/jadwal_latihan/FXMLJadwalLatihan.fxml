@@ -20,9 +20,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="627.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jadwal_latihan.JadwalLatihanController">
    <children>
-      <ImageView fitHeight="685.0" fitWidth="886.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="700.0" fitWidth="1291.0" layoutX="-183.0" layoutY="-67.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../WhatsApp%20Image%202025-07-03%20at%2020.15.29.jpeg" />
+            <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
          </image>
       </ImageView>
       <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="772.0" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
@@ -138,7 +138,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tvJadwal" prefHeight="250.0" prefWidth="400.0" style="-fx-background-color: c3b390;">
+            <TableView fx:id="tvJadwal" prefHeight="171.0" prefWidth="818.0" style="-fx-background-color: c3b390;">
               <columns>
                 <TableColumn fx:id="tcNamaSesi" prefWidth="115.99999618530273" text="Nama Sesi" />
                 <TableColumn fx:id="tcDurasi" prefWidth="45.333343505859375" text="Durasi" />
