@@ -120,14 +120,19 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button onAction="#loadDataButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #a8c890;" text="Muat Data" textFill="#36290c">
+                  <Button onAction="#loadDataButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: c3b390;" text="Muat Data" textFill="#36290c">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button onAction="#clearFormButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #f0c890;" text="Bersihkan" textFill="#36290c">
+                  <Button onAction="#clearFormButtonAction" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: c3b390;" text="Bersihkan" textFill="#36290c">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
+                  <Button onAction="#LangsungLatihanButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: c3b390;" text="Mulai Latihan" textFill="#36290c">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
@@ -145,7 +150,7 @@
                         <TableColumn fx:id="tcBuang" prefWidth="54.0" text="Buang" />
                      </columns></TableColumn>
                   <TableColumn fx:id="tcMusik" prefWidth="146.66665649414062" text="Musik Latar" />
-                  <TableColumn prefWidth="98.0" text="Suara Pemandu" />
+                  <TableColumn fx:id="tcSuaraPemandu" prefWidth="98.0" text="Suara Pemandu" />
                   <TableColumn fx:id="tcWaktuLatihan" prefWidth="215.33331298828125" text="Waktu" />
               </columns>
                <columnResizePolicy>

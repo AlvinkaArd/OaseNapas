@@ -1,12 +1,17 @@
 package jadwal_latihan;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -14,6 +19,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import latihan_pernapasan.LatihanPernapasan;
+import latihan_pernapasan.LatihanPernapasanController;
 import utils.Constants;
 import utils.NavigationUtil;
 import utils.XmlUtil;
@@ -340,4 +348,27 @@ public class JadwalLatihanController implements Initializable {
         tvJadwal.setItems(data.getData());
         LOGGER.info("Berhasil memuat " + loadedCount + " item dari XML");
     }
+
+    public void LangsungLatihanButton(ActionEvent event) { 
+    FXMLLoader loader = NavigationUtil.navigateAndLoad(event);
+    if (loader != null) {
+        LatihanPernapasanController controller = loader.getController();
+
+        if (controller != null) {
+            controller.getSpDurasi().getValueFactory().setValue(spDurasi.getValue());
+            controller.getTfTarik().setText(tfTarik.getText()); 
+            controller.getTfTahan().setText(tfTahan.getText());
+            controller.getTfBuang().setText(tfBuang.getText());
+            controller.getCbPolaPernapasan().setValue(cbGejala.getValue());
+            controller.getCbMusik().setValue(cbMusik.getValue());
+            controller.getCbSuaraPemandu().setValue(cbSuaraPemandu.getValue());
+            
+            System.out.println("Latihan dimulai");
+        } else {
+            LOGGER.severe("Error: LatihanPernapasanController could not be retrieved after FXML load.");
+        }
+    } else {
+        LOGGER.severe("Error: Navigation to Latihan Pernapasan page failed.");
+    }
+}
 }

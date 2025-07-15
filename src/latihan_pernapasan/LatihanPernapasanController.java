@@ -87,4 +87,32 @@ public class LatihanPernapasanController implements Initializable {
     public void mulaiButton(ActionEvent event) throws IOException {
         NavigationUtil.navigateToMulaiLatihan(event);
     }
+
+    public Spinner<Integer> getSpDurasi() {
+        return spDurasi;
+    }
+
+    public TextField getTfTarik() {
+        return tfTarik;
+    }
+
+    public TextField getTfTahan() {
+        return tfTahan;
+    }
+
+    public TextField getTfBuang() {
+        return tfBuang;
+    }
+
+    public ChoiceBox<String> getCbPolaPernapasan() {
+        return cbPolaPernapasan;
+    }
+
+    public ChoiceBox<String> getCbMusik() {
+        return cbMusik;
+    }
+
+    public ChoiceBox<String> getCbSuaraPemandu() {
+        return cbSuaraPemandu;
+    }
 }

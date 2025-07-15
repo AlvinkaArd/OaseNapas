@@ -45,7 +45,6 @@ public class JadwalLatihan extends LatihanPernapasan {
         return gejala.get(); 
     }
     
-
     public String getSuaraPemandu() { 
         return suaraPemandu.get(); 
     }
