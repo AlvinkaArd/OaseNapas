@@ -14,8 +14,9 @@ import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import latihan_pernapasan.LatihanPernapasanController;
 
-public class FXMLMulaiLatihanController  {
+public class FXMLMulaiLatihanController {
 
     @FXML
     private Label napasLabel; // fx:id for the "10" label
@@ -24,23 +25,23 @@ public class FXMLMulaiLatihanController  {
     private Label countdownLabel; // fx:id for a new Label to display the countdown
 
     private int currentNapas = 10;
-    private Timeline countdownTimeline; 
-    private int countdownSeconds = 5; //initial countdown duration in seconds
+    private Timeline countdownTimeline;
+    private int countdownSeconds = 5; // initial countdown duration in seconds
 
     @FXML
     public void initialize() {
         updateNapasLabel();
-        
+
         if (countdownLabel != null) {
-            countdownLabel.setText(""); 
+            countdownLabel.setText("");
         }
     }
 
-    //@FXML
-    //private void goBack(ActionEvent event) {
-        //System.out.println("Go back button clicked!");
-       
-    //}
+    // @FXML
+    // private void goBack(ActionEvent event) {
+    // System.out.println("Go back button clicked!");
+
+    // }
     @FXML
     public void goBack(ActionEvent event) throws IOException {
         Parent scene2 = FXMLLoader.load(getClass().getResource("/latihan_pernapasan/FXMLLatihanPernapasan.fxml"));
@@ -54,14 +55,14 @@ public class FXMLMulaiLatihanController  {
     }
 
     @FXML
-    private void playAudio(ActionEvent event) {
+    private void playMusic(ActionEvent event) {
         System.out.println("Play button clicked!");
-        startCountdown(); 
+        startCountdown();
     }
 
     @FXML
     private void decrementNapas(ActionEvent event) {
-        if (currentNapas > 0) { 
+        if (currentNapas > 0) {
             currentNapas--;
             updateNapasLabel();
         }
@@ -77,35 +78,32 @@ public class FXMLMulaiLatihanController  {
         napasLabel.setText(String.valueOf(currentNapas));
     }
 
-    
     private void startCountdown() {
-        
+
         if (countdownTimeline != null) {
             countdownTimeline.stop();
         }
 
-        
-        countdownSeconds = 5; 
+        countdownSeconds = 5;
 
-        
         countdownTimeline = new Timeline(
-            new KeyFrame(Duration.seconds(1), e -> {
-                countdownSeconds--;
-                if (countdownLabel != null) {
-                    countdownLabel.setText("Mulai dalam: " + countdownSeconds);
-                }
-
-                if (countdownSeconds <= 0) {
-                    countdownTimeline.stop();
+                new KeyFrame(Duration.seconds(1), e -> {
+                    countdownSeconds--;
                     if (countdownLabel != null) {
-                        countdownLabel.setText("Mulai!");
+                        countdownLabel.setText("Mulai dalam: " + countdownSeconds);
                     }
-                    System.out.println("Countdown selesai! Audio/aktivitas dimulai.");
-                    // --- PLACE YOUR ACTUAL AUDIO PLAYBACK START LOGIC HERE ---
-                    // For example: playSound();
-                }
-            })
-        );
+
+                    if (countdownSeconds <= 0) {
+                        countdownTimeline.stop();
+                        if (countdownLabel != null) {
+                            countdownLabel.setText("Mulai!");
+                        }
+                        System.out.println("Countdown selesai! Audio/aktivitas dimulai.");
+                        LatihanPernapasanController audio = new LatihanPernapasanController();
+
+                        audio.playMusic("relaksasi.mp3"); // Ganti dengan nama file musik yang sesuai
+                    }
+                }));
         countdownTimeline.setCycleCount(countdownSeconds + 1); // Run for initial seconds + 1 for "Mulai!" message
         countdownTimeline.play();
     }

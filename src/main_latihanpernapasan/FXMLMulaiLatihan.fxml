@@ -32,7 +32,7 @@
 
       <VBox alignment="CENTER" layoutX="132.0" layoutY="50.0" prefHeight="250.0" prefWidth="543.0" style="-fx-background-color: #2D0F5E;">
          <children>
-            <Button onAction="#playAudio" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: #A797E0; -fx-background-radius: 50;" text="Mulai" textFill="#fcfcfc" />
+            <Button onAction="#playMusic" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: #A797E0; -fx-background-radius: 50;" text="Mulai" textFill="#fcfcfc" />
             <Label fx:id="countdownLabel" textFill="WHITE">
                 <font>
                     <Font name="System Bold" size="24.0" />
