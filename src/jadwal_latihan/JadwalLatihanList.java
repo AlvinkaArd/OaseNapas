@@ -3,10 +3,6 @@ package jadwal_latihan;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- * Kelas wrapper untuk ObservableList objek JadwalLatihan
- * Menyediakan manajemen data yang ramah UI untuk JavaFX TableView
- */
 public class JadwalLatihanList {
     private final ObservableList<JadwalLatihan> list;
 

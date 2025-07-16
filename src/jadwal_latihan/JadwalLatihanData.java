@@ -55,7 +55,7 @@ public class JadwalLatihanData {
     }
 
     //  getter & setter
-    public String getNamaSesi() { return namaSesi; }
+    public String getNamaSesi() { return namaSesi; } 
     public void setNamaSesi(String namaSesi) { this.namaSesi = namaSesi; }
 
     public String getMusikLatar() { return musikLatar; }

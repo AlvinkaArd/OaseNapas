@@ -72,6 +72,21 @@ public final class NavigationUtil {
     public static boolean navigateToBreathingPage(ActionEvent event) {
         return navigateToPage(event, Constants.LATIHAN_PERNAPASAN_FXML, Constants.LATIHAN_PERNAPASAN_TITLE);
     }
+
+    public static FXMLLoader navigateAndLoad(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(Constants.LATIHAN_PERNAPASAN_FXML));
+            Parent root = loader.load(); 
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setTitle(Constants.LATIHAN_PERNAPASAN_TITLE);
+            stage.setScene(new Scene(root));
+            stage.show();
+            return loader; 
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load FXML: " + Constants.LATIHAN_PERNAPASAN_FXML, e);
+            return null; 
+        }
+    }
     
     /**
      * Navigasi ke halaman chart/riwayat
