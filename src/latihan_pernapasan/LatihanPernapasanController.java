@@ -89,30 +89,30 @@ public class LatihanPernapasanController implements Initializable {
     }
 
     public Spinner<Integer> getSpDurasi() {
-        return spDurasi;
+        return this.spDurasi;
     }
 
     public TextField getTfTarik() {
-        return tfTarik;
+        return this.tfTarik;
     }
 
     public TextField getTfTahan() {
-        return tfTahan;
+        return this.tfTahan;
     }
 
     public TextField getTfBuang() {
-        return tfBuang;
+        return this.tfBuang;
     }
 
     public ChoiceBox<String> getCbPolaPernapasan() {
-        return cbPolaPernapasan;
+        return this.cbPolaPernapasan;
     }
 
     public ChoiceBox<String> getCbMusik() {
-        return cbMusik;
+        return this.cbMusik;
     }
 
     public ChoiceBox<String> getCbSuaraPemandu() {
-        return cbSuaraPemandu;
+        return this.cbSuaraPemandu;
     }
 }

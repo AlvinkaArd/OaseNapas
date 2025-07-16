@@ -349,26 +349,28 @@ public class JadwalLatihanController implements Initializable {
         LOGGER.info("Berhasil memuat " + loadedCount + " item dari XML");
     }
 
-    public void LangsungLatihanButton(ActionEvent event) { 
-    FXMLLoader loader = NavigationUtil.navigateAndLoad(event);
-    if (loader != null) {
-        LatihanPernapasanController controller = loader.getController();
+    // new added
+    public void langsungLatihanButton(ActionEvent event) { 
+        JadwalLatihan selectedItem = tvJadwal.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = NavigationUtil.navigateAndLoad(event);
+        if (loader != null) {
+            LatihanPernapasanController controller = loader.getController();
 
-        if (controller != null) {
-            controller.getSpDurasi().getValueFactory().setValue(spDurasi.getValue());
-            controller.getTfTarik().setText(tfTarik.getText()); 
-            controller.getTfTahan().setText(tfTahan.getText());
-            controller.getTfBuang().setText(tfBuang.getText());
-            controller.getCbPolaPernapasan().setValue(cbGejala.getValue());
-            controller.getCbMusik().setValue(cbMusik.getValue());
-            controller.getCbSuaraPemandu().setValue(cbSuaraPemandu.getValue());
-            
-            System.out.println("Latihan dimulai");
+            if (controller != null) {
+                controller.getCbMusik().setValue(selectedItem.getMusikLatar());
+                controller.getCbPolaPernapasan().setValue(selectedItem.getGejala());
+                controller.getCbSuaraPemandu().setValue(selectedItem.getSuaraPemandu());
+                controller.getSpDurasi().getValueFactory().setValue(selectedItem.getDurasi());
+                controller.getTfTarik().setText(selectedItem.getTarik());
+                controller.getTfTahan().setText(selectedItem.getTahan());
+                controller.getTfBuang().setText(selectedItem.getBuang());
+                
+                System.out.println("Latihan dimulai");
+            } else {
+                LOGGER.severe("Error: LatihanPernapasanController could not be retrieved after FXML load.");
+            }
         } else {
-            LOGGER.severe("Error: LatihanPernapasanController could not be retrieved after FXML load.");
+            LOGGER.severe("Error: Navigation to Latihan Pernapasan page failed.");
         }
-    } else {
-        LOGGER.severe("Error: Navigation to Latihan Pernapasan page failed.");
     }
-}
 }
