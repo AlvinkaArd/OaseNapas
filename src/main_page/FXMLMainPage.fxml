@@ -19,17 +19,17 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="656.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="358.0" layoutY="268.0" mnemonicParsing="false" onAction="#aturJadwalButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Atur Jadwal Latihan" textFill="#36290c">
+                  <Button layoutX="358.0" layoutY="225.0" mnemonicParsing="false" onAction="#aturJadwalButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Atur Jadwal Latihan" textFill="#36290c">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button layoutX="359.0" layoutY="180.0" mnemonicParsing="false" onAction="#mulaiLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Mulai Latihan" textFill="#36290c">
+                  <Button layoutX="358.0" layoutY="144.0" mnemonicParsing="false" onAction="#mulaiLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Mulai Latihan" textFill="#36290c">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button layoutX="359.0" layoutY="361.0" mnemonicParsing="false" onAction="#riwayatLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Riwayat Latihan" textFill="#36290c">
+                  <Button layoutX="358.0" layoutY="305.0" mnemonicParsing="false" onAction="#riwayatLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Riwayat Latihan" textFill="#36290c">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -39,6 +39,11 @@
                         <Font name="System Bold Italic" size="36.0" />
                      </font>
                   </Text>
+                  <Button layoutX="358.0" layoutY="378.0" mnemonicParsing="false" onAction="#goRekomendasi" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Solusi Gejala" textFill="#36290c">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </center>

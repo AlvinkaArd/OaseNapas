@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="688.0" prefWidth="720.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="solusigejala.RekomendasiSolusiController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <children>
+      <Label text="Cari Rekomendasi Solusi Gejala Latihan Pernapasan">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <ComboBox fx:id="gejalaComboBox" prefWidth="328.0" HBox.hgrow="ALWAYS" /> <Button mnemonicParsing="false" onAction="#handleSearchButtonAction" text="Cari" />
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <ScrollPane fitToWidth="true" prefHeight="212.0" prefWidth="460.0" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="resultContainer" alignment="TOP_LEFT" spacing="10.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Button mnemonicParsing="false" onAction="#goBack" text="Kembali" />
+   </children>
+</VBox>
