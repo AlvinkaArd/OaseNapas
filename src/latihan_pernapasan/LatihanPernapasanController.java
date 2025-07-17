@@ -5,13 +5,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import utils.Constants;
 import utils.NavigationUtil;
 
@@ -97,10 +102,54 @@ public class LatihanPernapasanController implements Initializable {
         NavigationUtil.navigateToMainPage(event);
     }
 
+    //tambahan passdata
     @FXML
     public void mulaiButton(ActionEvent event) throws IOException {
         stopMusic(); // Hentikan musik saat mulai latihan
-        NavigationUtil.navigateToMulaiLatihan(event);
+
+        // 1. Ambil data dari UI
+        int durasi = spDurasi.getValue();
+        String polaPernapasan = cbPolaPernapasan.getValue();
+        String musikLatar = cbMusik.getValue();
+        String suaraPemandu = cbSuaraPemandu.getValue();
+        String tarik = tfTarik.getText();
+        String tahan = tfTahan.getText();
+        String buang = tfBuang.getText();
+
+
+        // 2. Buat objek LatihanPernapasan
+        // Perhatikan bahwa "gejala" tidak diambil dari UI di sini. Jika Anda memiliki
+        // ChoiceBox untuk gejala, Anda harus menambahkannya. Untuk sementara, kita pakai ""
+        LatihanPernapasan latihanBaru = new LatihanPernapasan(
+                musikLatar, // musikLatar
+                polaPernapasan, // gejala, kita gunakan polaPernapasan sebagai pengganti sementara
+                suaraPemandu, // suaraPemandu
+                durasi,       // durasi
+                tarik,        // tarik
+                tahan,        // tahan
+                buang         // buang
+        );
+
+        try {
+            // 3. Load FXML untuk scene baru (MulaiLatihan.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/latihan_pernapasan/MulaiLatihan.fxml"));
+            Parent root = loader.load();
+
+            // 4. Dapatkan controller dari scene baru
+            MulaiLatihanController mulaiLatihanController = loader.getController();
+
+            // 5. Teruskan objek LatihanPernapasan ke controller scene baru
+            mulaiLatihanController.setLatihanData(latihanBaru);
+
+            // 6. Tampilkan scene baru
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Gagal memuat halaman MulaiLatihan: " + e.getMessage());
+            e.printStackTrace();}
     }
 
     // Getter methods (tidak diubah)

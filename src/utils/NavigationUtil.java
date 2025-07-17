@@ -100,4 +100,18 @@ public final class NavigationUtil {
     public static boolean navigateToMulaiLatihan(ActionEvent event) {
         return navigateToPage(event, Constants.MULAILATIHAN_FXML, Constants.MULAILATIHAN_TITLE);
     }
+
+    public static void navigateToLatihanPernapasanPage(ActionEvent event) {
+        // Ini tidak lagi digunakan secara langsung karena data passing dilakukan di controller LatihanPernapasanController
+        // Method ini bisa dihapus atau dipertahankan jika ada kasus lain yang tidak memerlukan passing data
+        try {
+             Parent root = FXMLLoader.load(NavigationUtil.class.getResource("/latihan_pernapasan/MulaiLatihan.fxml"));
+             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+             Scene scene = new Scene(root);
+             stage.setScene(scene);
+             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latihan_pernapasan.MulaiLatihanController">
+   <children>
+      <ImageView fitHeight="445.0" fitWidth="708.0" layoutX="-70.0" layoutY="-45.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7bcc80" height="25.0" layoutX="32.0" layoutY="188.0" stroke="BLACK" strokeType="INSIDE" width="575.0" />
+      <Label layoutX="162.0" layoutY="51.0" text="Kustomisasi Latihan Anda" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="22.0" layoutY="113.0" text="Durasi:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelDurasi" layoutX="78.0" layoutY="113.0" text="[nilai durasi]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="23.0" layoutY="153.0" text="Gejala:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelGejala" layoutX="78.0" layoutY="153.0" text="[nilai gejala]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="266.0" layoutY="190.0" text="Pola Pernapasan" textFill="#653911">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+
+
+      <Label layoutX="27.0" layoutY="225.0" text="Tarik:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelTarik" layoutX="80.0" layoutY="225.0" text="[nilai tarik]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="263.0" layoutY="225.0" text="Tahan:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelTahan" layoutX="320.0" layoutY="225.0" text="[nilai tahan]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="479.0" layoutY="225.0" text="Buang:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelBuang" layoutX="535.0" layoutY="225.0" text="[nilai buang]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="26.0" layoutY="266.0" prefHeight="20.0" prefWidth="107.0" text="Musik Latar:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelMusik" layoutX="118.0" layoutY="266.0" text="[nilai musik]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="26.0" layoutY="304.0" text="Suara Pemandu:" textFill="#6e4823">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelSuaraPemandu" layoutX="143.0" layoutY="304.0" text="[nilai suara pemandu]" textFill="#6e4823">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+
+      <Button layoutX="472.0" layoutY="343.0" mnemonicParsing="false" onAction="#mulaiLatihanAsli" text="Mulai Latihan" /> <Button layoutX="55.0" layoutY="343.0" mnemonicParsing="false" onAction="#kembaliKePengaturan" text="Kembali" /> </children>
+</AnchorPane>
