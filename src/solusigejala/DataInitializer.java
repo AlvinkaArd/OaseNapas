@@ -18,27 +18,17 @@ public class DataInitializer {
         dataArray[0] = new RekomendasiSolusiData(
                 "Stress",
                 "Lakukan pola 4-4-4.",
-                "Teknik pernapasan 4-4-4 adalah teknik bernapas terstruktur untuk mengurangi kecemasan dan stres. Teknik ini terdiri dari\n" + //
-                                        "tarikan napas selama empat hitungan, menahannya selama empat hitungan, dan mengembuskan napas selama empat\n" + //
-                                        "hitungan. Metode in menyelaraskan napas dengan sebuah pola tertentu, mempermudah relaksasi. Untuk menerapkan teknik\n" + //
-                                        "ini, Anda dapat:\n" + //
-                                        "• Mencari tempt tenang dan duduk dengan nyaman, sehingga Anda dapat berfokus dengan napas Anda.\n" + //
-                                        "• Tarik napas lewat hidung, sambil menghitung sampai 4.\n" + //
-                                        "• Tahan napas Anda selama 4 hitungan.\n" + //
-                                        "• Embuskan napas lewat mulut perlahan, sambil menghitung sampai 4, menjaga rime yang stabil.\n" + //
-                                        "Mengatur napas menurunkan laju detak jantung dan menenangkan sistem saraf. Praktik ini meningkatkan asupan oksigen\n" + //
-                                        "dalam tubuh, membuat pikiran lebih jernih, dan mengurangi ketegangan. Sifat ritmisnya juga mendukung mindfulness dengan\n" + //
-                                        "memusatkan perhatian Anda pada momen di masa sekarang dan mengurangi pikiran yang membuat Anda cemas."
+                "https://www.alodokter.com/box-breathing-teknik-pernapasan-untuk-mengatasi-stres"
         );
         dataArray[1] = new RekomendasiSolusiData(
-                "",
-                "",
-                ""
+                "Sulit Tidur",
+                "Lakukan pola 4-7-8.",
+                "https://www.alodokter.com/teknik-pernapasan-4-7-8-untuk-membantu-tidur"
         );
         dataArray[2] = new RekomendasiSolusiData(
-                "",
-                "",
-                ""
+                "Kecemasan",
+                "Lakukan pola 4-4-4",
+                "https://www.pantai.com.my/id/health-pulse/breathing-exercises-for-anxiety-stress#:~:text=Teknik%20pernapasan%204%2D4%2D4,mengembuskan%20napas%20selama%20empat%20hitungan."
         );
 
 

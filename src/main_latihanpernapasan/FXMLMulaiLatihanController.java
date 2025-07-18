@@ -19,11 +19,9 @@ import latihan_pernapasan.LatihanPernapasanController;
 public class FXMLMulaiLatihanController {
 
     @FXML
-    private Label napasLabel; // fx:id for the "10" label
-
+    private Label napasLabel; // fx: id untuk label yang menampilkan jumlah napas
     @FXML
-    private Label countdownLabel; // fx:id for a new Label to display the countdown
-
+    private Label countdownLabel; // fx:id untuk label yang menampilkan countdown, countdown berfungsi untuk menampilkan waktu mundur sebelum musik dimulai 
     private int currentNapas = 10;
     private Timeline countdownTimeline;
     private int countdownSeconds = 5; // initial countdown duration in seconds
