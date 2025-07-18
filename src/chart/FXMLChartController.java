@@ -6,50 +6,31 @@ import java.util.logging.Logger;
 
 import jadwal_latihan.DataArray;
 import jadwal_latihan.JadwalLatihan;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import utils.Constants;
 import utils.NavigationUtil;
 import utils.XmlUtil;
-
-/**
- * Controller untuk halaman chart/statistik yang menampilkan riwayat latihan
- */
 public class FXMLChartController implements Initializable {
-    
-    private static final Logger LOGGER = Logger.getLogger(FXMLChartController.class.getName());
-
     @FXML
-    private BarChart<String, Number> barChartDurasi;
-
-    @FXML
-    private CategoryAxis xAxis;
-
-    @FXML
-    private NumberAxis yAxis;
+    private PieChart chartGejala;
 
     private DataArray collectedData;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setupChart();
         loadDataAndPopulateChart();
+        chartGejala.setTitle("Durasi Latihan Berdasarkan Gejala");
     }
-    
-    /**
-     * Setup judul chart dan label sumbu
-     */
-    private void setupChart() {
-        barChartDurasi.setTitle("Durasi Latihan Berdasarkan Sesi");
-        xAxis.setLabel("Nama Sesi");
-        yAxis.setLabel("Durasi (Menit)");
-    }
-    
+       
     /**
      * Muat data dari file XML dan isi chart
      */
@@ -62,22 +43,19 @@ public class FXMLChartController implements Initializable {
      * Isi chart dengan data dari collectedData
      */
     private void populateChart() {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Durasi Latihan");
+        ObservableList<PieChart.Data> series = FXCollections.observableArrayList();
 
         if (collectedData != null && collectedData.getCollectedData() != null) {
             for (int i = 0; i < collectedData.getIndex(); i++) {
                 JadwalLatihan jadwal = collectedData.getCollectedData()[i];
                 if (jadwal != null) {
-                    series.getData().add(new XYChart.Data<>(jadwal.getNamaSesi(), jadwal.getDurasi()));
+                    series.add(new PieChart.Data(jadwal.getGejala(), jadwal.getDurasi()));
                 }
             }
         }
         
-        barChartDurasi.getData().clear();
-        barChartDurasi.getData().add(series);
-        
-        LOGGER.info("Chart diisi dengan " + series.getData().size() + " titik data");
+        chartGejala.getData().clear();
+        chartGejala.setData(series);
     }
 
     @FXML
