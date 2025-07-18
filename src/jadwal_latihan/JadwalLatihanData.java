@@ -1,5 +1,8 @@
 package jadwal_latihan;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 /**
  * Objek transfer data sederhana untuk serialisasi XML
  * Kelas ini menggunakan field Java biasa sebagai ganti properti JavaFX
@@ -16,9 +19,7 @@ public class JadwalLatihanData {
     private String buang;
     private int durasi;
 
-    public JadwalLatihanData() {
-        // Konstruktor default untuk XStream
-    }
+    public JadwalLatihanData() {}
 
     public JadwalLatihanData(String namaSesi, String musikLatar, String gejala, String suaraPemandu, 
                            String waktuLatihan, int durasi, String tarik, String tahan, String buang) {
@@ -35,12 +36,13 @@ public class JadwalLatihanData {
 
     // Buat dari JadwalLatihan
     public static JadwalLatihanData fromJadwalLatihan(JadwalLatihan jadwal) {
+        String waktuLatihanStr = (jadwal.getWaktuLatihan() != null) ? jadwal.getWaktuLatihan().toString() : null;
         return new JadwalLatihanData(
             jadwal.getNamaSesi(),
             jadwal.getMusikLatar(),
             jadwal.getGejala(),
             jadwal.getSuaraPemandu(),
-            jadwal.getWaktuLatihan(),
+            waktuLatihanStr,
             jadwal.getDurasi(),
             jadwal.getTarik(),
             jadwal.getTahan(),
@@ -50,8 +52,17 @@ public class JadwalLatihanData {
 
     // Konversi ke JadwalLatihan
     public JadwalLatihan toJadwalLatihan() {
+        LocalDate waktu = null;
+         if (this.waktuLatihan != null && !this.waktuLatihan.trim().isEmpty()) {
+            try{
+                waktu = LocalDate.parse(this.waktuLatihan);
+            } catch (DateTimeParseException e) {
+                System.err.println("WARNING: Could not parse XML date string '" + this.waktuLatihan + "' into LocalDate. Using null. Error: " + e.getMessage());
+                // The date will be null in the UI, which is acceptable if old data is unparsable.
+            }
+        }
         return new JadwalLatihan(namaSesi, musikLatar, gejala, suaraPemandu, 
-                               waktuLatihan, durasi, tarik, tahan, buang);
+                               waktu, durasi, tarik, tahan, buang);
     }
 
     //  getter & setter

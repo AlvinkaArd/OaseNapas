@@ -2,6 +2,7 @@ package jadwal_latihan;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
@@ -40,14 +42,20 @@ public class JadwalLatihanController implements Initializable {
     private Spinner<Integer> spDurasi;
 
     @FXML
-    private TextField tfTarik, tfTahan, tfBuang, tfNamaSesi, tfWaktuLatihan;
+    private DatePicker dpWaktuLatihan;
+
+    @FXML
+    private TextField tfTarik, tfTahan, tfBuang, tfNamaSesi;
 
     @FXML
     private ChoiceBox<String> cbGejala, cbMusik, cbSuaraPemandu;
 
     @FXML
+    private TableColumn<JadwalLatihan, LocalDate> tcWaktuLatihan;
+
+    @FXML
     private TableColumn<JadwalLatihan, String> tcNamaSesi, tcGejala, tcMusik, tcSuaraPemandu, 
-                                               tcWaktuLatihan, tcTarik, tcTahan, tcBuang;
+                                               tcTarik, tcTahan, tcBuang;
     
     @FXML
     private TableColumn<JadwalLatihan, Integer> tcDurasi;
@@ -132,7 +140,7 @@ public class JadwalLatihanController implements Initializable {
         String musik = cbMusik.getValue();
         String gejala = cbGejala.getValue();
         String pemandu = cbSuaraPemandu.getValue();
-        String waktu = tfWaktuLatihan.getText().trim();
+        LocalDate waktu = dpWaktuLatihan.getValue();
         int durasi = spDurasi.getValue();
         String tarik = tfTarik.getText().trim();
         String tahan = tfTahan.getText().trim();
@@ -208,7 +216,7 @@ public class JadwalLatihanController implements Initializable {
             LOGGER.warning("Nama sesi tidak boleh kosong");
             return false;
         }
-        if (tfWaktuLatihan.getText().trim().isEmpty()) {
+        if (dpWaktuLatihan.getValue() == null) {
             LOGGER.warning("Waktu latihan tidak boleh kosong");
             return false;
         }
@@ -224,7 +232,7 @@ public class JadwalLatihanController implements Initializable {
         jadwal.setMusikLatar(cbMusik.getValue());
         jadwal.setGejala(cbGejala.getValue());
         jadwal.setSuaraPemandu(cbSuaraPemandu.getValue());
-        jadwal.setWaktuLatihan(tfWaktuLatihan.getText().trim());
+        jadwal.setWaktuLatihan(dpWaktuLatihan.getValue());
         jadwal.setDurasi(spDurasi.getValue());
         jadwal.setTarik(tfTarik.getText().trim());
         jadwal.setTahan(tfTahan.getText().trim());
@@ -254,7 +262,7 @@ public class JadwalLatihanController implements Initializable {
         cbMusik.setValue(selectedItem.getMusikLatar());
         cbGejala.setValue(selectedItem.getGejala());
         cbSuaraPemandu.setValue(selectedItem.getSuaraPemandu());
-        tfWaktuLatihan.setText(selectedItem.getWaktuLatihan());
+        dpWaktuLatihan.setValue(selectedItem.getWaktuLatihan());
         spDurasi.getValueFactory().setValue(selectedItem.getDurasi());
         tfTarik.setText(selectedItem.getTarik());
         tfTahan.setText(selectedItem.getTahan());
@@ -269,7 +277,7 @@ public class JadwalLatihanController implements Initializable {
         cbMusik.setValue(Constants.DEFAULT_MUSIK);
         cbGejala.setValue("Stress");
         cbSuaraPemandu.setValue(Constants.DEFAULT_SUARA_PEMANDU);
-        tfWaktuLatihan.clear();
+        dpWaktuLatihan.setValue(null);
         spDurasi.getValueFactory().setValue(Constants.DEFAULT_DURASI);
         tfTarik.clear();
         tfTahan.clear();

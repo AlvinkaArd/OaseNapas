@@ -1,6 +1,10 @@
 package jadwal_latihan;
 
+import java.time.LocalDate;
+
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import latihan_pernapasan.LatihanPernapasan;
 
@@ -9,19 +13,19 @@ public class JadwalLatihan extends LatihanPernapasan {
     private final SimpleStringProperty musikLatar;
     private final SimpleStringProperty gejala;
     private final SimpleStringProperty suaraPemandu;
-    private final SimpleStringProperty waktuLatihan;
+    private final ObjectProperty<LocalDate> waktuLatihan;
     private final SimpleStringProperty tarik;
     private final SimpleStringProperty tahan;
     private final SimpleStringProperty buang;
     private final SimpleIntegerProperty durasi;
 
     public JadwalLatihan(String namaSesi, String musikLatar, String gejala, String suaraPemandu, 
-                        String waktuLatihan, int durasi, String tarik, String tahan, String buang) {
+                        LocalDate waktuLatihan, int durasi, String tarik, String tahan, String buang) {
         this.namaSesi = new SimpleStringProperty(namaSesi);
         this.musikLatar = new SimpleStringProperty(musikLatar);
         this.gejala = new SimpleStringProperty(gejala);
         this.suaraPemandu = new SimpleStringProperty(suaraPemandu);
-        this.waktuLatihan = new SimpleStringProperty(waktuLatihan);
+        this.waktuLatihan = new SimpleObjectProperty<>(waktuLatihan);
         this.durasi = new SimpleIntegerProperty(durasi);
         this.tarik = new SimpleStringProperty(tarik);
         this.tahan = new SimpleStringProperty(tahan);
@@ -29,7 +33,7 @@ public class JadwalLatihan extends LatihanPernapasan {
     }
 
     public JadwalLatihan() {
-        this("", "", "", "", "", 0, "", "", "");
+        this("", "", "", "", null, 0, "", "", "");
     }
 
     // getter
@@ -49,8 +53,8 @@ public class JadwalLatihan extends LatihanPernapasan {
         return suaraPemandu.get(); 
     }
 
-    public String getWaktuLatihan() { 
-        return waktuLatihan.get(); 
+    public LocalDate getWaktuLatihan() { 
+        return waktuLatihan.get();
     }
 
     public int getDurasi() { 
@@ -86,8 +90,8 @@ public class JadwalLatihan extends LatihanPernapasan {
         this.suaraPemandu.set(suaraPemandu); 
     }
 
-    public void setWaktuLatihan(String waktuLatihan) { 
-        this.waktuLatihan.set(waktuLatihan); 
+    public void setWaktuLatihan(LocalDate waktuLatihan) {
+        this.waktuLatihan.set(waktuLatihan);
     }
 
     public void setDurasi(int durasi) { 
