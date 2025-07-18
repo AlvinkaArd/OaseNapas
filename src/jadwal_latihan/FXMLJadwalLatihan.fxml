@@ -56,12 +56,12 @@
                      </font>
                   </Label>
                   <Spinner fx:id="spDurasi" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Pilih Pola Berdasarkan Gejala:" textFill="#36290c" GridPane.rowIndex="2">
+                  <Label text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label text="Atau Masukkan Pola" textFill="#36290c" GridPane.rowIndex="3">
+                  <Label text="Masukkan Pola" textFill="#36290c" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
