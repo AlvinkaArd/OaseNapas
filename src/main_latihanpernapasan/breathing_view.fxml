@@ -3,41 +3,40 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="1274.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main_latihanpernapasan.BreathingController">
     <children>
-        <ImageView fitHeight="815.0" fitWidth="1274.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <image>
-                <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
-            </image>
-        </ImageView>
+        <MediaView fx:id="backgroundMediaView" fitHeight="815.0" fitWidth="1274.0" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
         <VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
-                <VBox prefHeight="0.0" prefWidth="1206.0" VBox.vgrow="ALWAYS" /> <Label fx:id="instructionLabel" text="Mulai Latihan Pernapasan" textFill="#2f4f4f">
+
+                <Label fx:id="instructionLabel" text="Mulai Latihan Pernapasan" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="36.0" />
                     </font>
-                    </Label>
-                <Label fx:id="countdownLabel" text="00:00" textFill="#8b0000">
+               <VBox.margin>
+                  <Insets top="120.0" />
+               </VBox.margin>
+                </Label>
+                <Label fx:id="countdownLabel" text="00:00" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="48.0" />
                     </font>
                 </Label>
 
-                <GridPane alignment="CENTER" hgap="10.0" vgap="10.0" VBox.vgrow="NEVER">
+                <GridPane alignment="CENTER" hgap="10.0" prefHeight="205.0" prefWidth="860.0" vgap="10.0" VBox.vgrow="NEVER">
                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="482.0" minWidth="10.0" prefWidth="478.6666259765625" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="513.3333740234375" minWidth="10.0" prefWidth="477.3333740234375" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -46,17 +45,41 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Durasi Total:" GridPane.rowIndex="0" />
-                        <Label fx:id="durasiDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Durasi Total:" textFill="WHITE" GridPane.rowIndex="0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                        <Label fx:id="durasiDisplayLabel" text="-" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
 
-                        <Label text="Tarik:" GridPane.rowIndex="1" />
-                        <Label fx:id="tarikDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Tarik:" textFill="WHITE" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                        <Label fx:id="tarikDisplayLabel" text="-" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
 
-                        <Label text="Tahan:" GridPane.rowIndex="2" />
-                        <Label fx:id="tahanDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Tahan:" textFill="WHITE" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                        <Label fx:id="tahanDisplayLabel" text="-" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
 
-                        <Label text="Buang:" GridPane.rowIndex="3" />
-                        <Label fx:id="buangDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Buang:" textFill="WHITE" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                        <Label fx:id="buangDisplayLabel" text="-" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -76,7 +99,8 @@
                     </padding>
                 </HBox>
 
-                <VBox VBox.vgrow="ALWAYS" /> </children>
+                <VBox VBox.vgrow="ALWAYS" />
+            </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>

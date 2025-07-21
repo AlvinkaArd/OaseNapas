@@ -1,31 +1,17 @@
 package jadwal_latihan;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException; // Import for parsing exceptions
+import java.time.format.DateTimeParseException; 
 
-/**
- * Struktur data untuk mengelola objek JadwalLatihan
- * Menyediakan fungsionalitas untuk menyimpan, mengambil, dan mengelola data jadwal latihan
- */
 public class DataArray {
     private int index;
     private JadwalLatihan[] collectedData;
 
-    /**
-     * Konstruktor untuk inisialisasi array data
-     * @param capacity Jumlah maksimum elemen yang dapat ditampung array
-     */
     public DataArray(int capacity) {
         this.index = 0;
         this.collectedData = new JadwalLatihan[capacity];
     }
 
-    /**
-     * Tambahkan data jadwal latihan baru ke array (String waktuLatihan - Deprecated)
-     * Ini akan mencoba mengonversi String ke LocalDate. Jika format tidak sesuai,
-     * tanggal akan menjadi null.
-     * @deprecated Gunakan addData(String, String, String, String, LocalDate, int, String, String, String) sebagai gantinya.
-     */
     @Deprecated
     public void addData(String namaSesi, String musikLatar, String gejala, String suaraPemandu,
                         String waktuLatihan, int durasi, String tarik, String tahan, String buang) {
@@ -33,10 +19,6 @@ public class DataArray {
             LocalDate parsedDate = null;
             if (waktuLatihan != null && !waktuLatihan.trim().isEmpty()) {
                 try {
-                    // IMPORTANT: This parsing assumes ISO_LOCAL_DATE format (e.g., "2025-07-18").
-                    // If your existing String data is "Senin Pagi", this will fail.
-                    // For such cases, you might want to consider not parsing it to LocalDate
-                    // if it's purely descriptive, or handle specific date formats if possible.
                     parsedDate = LocalDate.parse(waktuLatihan);
                 } catch (DateTimeParseException e) {
                     System.err.println("WARNING: Could not parse date string '" + waktuLatihan + "'. Using null for date. Error: " + e.getMessage());

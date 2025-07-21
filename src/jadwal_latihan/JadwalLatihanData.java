@@ -3,11 +3,6 @@ package jadwal_latihan;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-/**
- * Objek transfer data sederhana untuk serialisasi XML
- * Kelas ini menggunakan field Java biasa sebagai ganti properti JavaFX
- * untuk menghindari masalah akses modul dengan XStream
- */
 public class JadwalLatihanData {
     private String namaSesi;
     private String musikLatar;
@@ -34,7 +29,7 @@ public class JadwalLatihanData {
         this.buang = buang;
     }
 
-    // Buat dari JadwalLatihan
+  
     public static JadwalLatihanData fromJadwalLatihan(JadwalLatihan jadwal) {
         String waktuLatihanStr = (jadwal.getWaktuLatihan() != null) ? jadwal.getWaktuLatihan().toString() : null;
         return new JadwalLatihanData(
@@ -50,7 +45,7 @@ public class JadwalLatihanData {
         );
     }
 
-    // Konversi ke JadwalLatihan
+  
     public JadwalLatihan toJadwalLatihan() {
         LocalDate waktu = null;
          if (this.waktuLatihan != null && !this.waktuLatihan.trim().isEmpty()) {
@@ -58,7 +53,7 @@ public class JadwalLatihanData {
                 waktu = LocalDate.parse(this.waktuLatihan);
             } catch (DateTimeParseException e) {
                 System.err.println("WARNING: Could not parse XML date string '" + this.waktuLatihan + "' into LocalDate. Using null. Error: " + e.getMessage());
-                // The date will be null in the UI, which is acceptable if old data is unparsable.
+                
             }
         }
         return new JadwalLatihan(namaSesi, musikLatar, gejala, suaraPemandu, 

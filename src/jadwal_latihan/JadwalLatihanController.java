@@ -84,9 +84,6 @@ public class JadwalLatihanController implements Initializable {
         tcBuang.setCellValueFactory(new PropertyValueFactory<>("buang"));
     }
     
-    /**
-     * Inisialisasi spinner durasi
-     */
     private void initializeDurationSpinner() {
         SpinnerValueFactory<Integer> durasiValueFactory = 
             new SpinnerValueFactory.IntegerSpinnerValueFactory(
@@ -94,9 +91,6 @@ public class JadwalLatihanController implements Initializable {
         spDurasi.setValueFactory(durasiValueFactory);
     }
     
-    /**
-     * Inisialisasi choice box dengan nilai default
-     */
     private void initializeChoiceBoxes() {
         cbGejala.setValue("Stress");
         cbGejala.getItems().addAll("Stress", "Sulit Tidur", "Kecemasan");
@@ -108,9 +102,6 @@ public class JadwalLatihanController implements Initializable {
         cbSuaraPemandu.getItems().addAll(Constants.SUARA_PEMANDU_OPTIONS);
     }
     
-    /**
-     * Inisialisasi struktur data dan muat data yang tersimpan
-     */
     private void initializeData() {
         data = new JadwalLatihanList();
         tvJadwal.setItems(data.getData());
@@ -118,9 +109,6 @@ public class JadwalLatihanController implements Initializable {
         loadSavedData();
     }
     
-    /**
-     * Setup listener seleksi tabel
-     */
     private void setupTableSelectionListener() {
         tvJadwal.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -207,10 +195,6 @@ public class JadwalLatihanController implements Initializable {
         LOGGER.info("Form telah dibersihkan");
     }
     
-    /**
-     * Validasi data form sebelum diproses
-     * @return true jika data valid, false jika tidak
-     */
     private boolean validateFormData() {
         if (tfNamaSesi.getText().trim().isEmpty()) {
             LOGGER.warning("Nama sesi tidak boleh kosong");
@@ -223,10 +207,6 @@ public class JadwalLatihanController implements Initializable {
         return true;
     }
     
-    /**
-     * Perbarui objek JadwalLatihan dari data form
-     * @param jadwal Objek yang akan diperbarui
-     */
     private void updateJadwalFromForm(JadwalLatihan jadwal) {
         jadwal.setNamaSesi(tfNamaSesi.getText().trim());
         jadwal.setMusikLatar(cbMusik.getValue());
@@ -239,10 +219,6 @@ public class JadwalLatihanController implements Initializable {
         jadwal.setBuang(tfBuang.getText().trim());
     }
     
-    /**
-     * Perbarui entri yang sesuai di collectedData
-     * @param updatedJadwal Objek jadwal yang telah diperbarui
-     */
     private void updateCollectedData(JadwalLatihan updatedJadwal) {
         for (int i = 0; i < collectedData.getIndex(); i++) {
             JadwalLatihan current = collectedData.getCollectedData()[i];
@@ -253,10 +229,6 @@ public class JadwalLatihanController implements Initializable {
         }
     }
     
-    /**
-     * Isi field form dari item tabel yang dipilih
-     * @param selectedItem Objek JadwalLatihan yang dipilih
-     */
     private void populateFormFromSelection(JadwalLatihan selectedItem) {
         tfNamaSesi.setText(selectedItem.getNamaSesi());
         cbMusik.setValue(selectedItem.getMusikLatar());
@@ -269,9 +241,6 @@ public class JadwalLatihanController implements Initializable {
         tfBuang.setText(selectedItem.getBuang());
     }
     
-    /**
-     * Bersihkan semua field form ke nilai default
-     */
     private void clearFormFields() {
         tfNamaSesi.clear();
         cbMusik.setValue(Constants.DEFAULT_MUSIK);
@@ -305,12 +274,6 @@ public class JadwalLatihanController implements Initializable {
         collectedData.setIndex(newIndex);
     }
     
-    /**
-     * Periksa apakah dua objek JadwalLatihan sama
-     * @param jadwal1 Jadwal pertama
-     * @param jadwal2 Jadwal kedua
-     * @return true jika keduanya mewakili data yang sama
-     */
     private boolean isSameJadwal(JadwalLatihan jadwal1, JadwalLatihan jadwal2) {
         return jadwal1.getNamaSesi().equals(jadwal2.getNamaSesi()) &&
                jadwal1.getMusikLatar().equals(jadwal2.getMusikLatar()) &&
