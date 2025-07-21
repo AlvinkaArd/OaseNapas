@@ -11,7 +11,6 @@ public class DataInitializer {
      */
     public static RekomendasiSolusiDataArray initializeDummyData() {
         // Langsung mendeklarasikan array biasa dengan ukuran yang sudah ditentukan.
-        // Di sini, kita akan punya 7 data rekomendasi.
         RekomendasiSolusiData[] dataArray = new RekomendasiSolusiData[3];
 
         // Mengisi array secara langsung berdasarkan indeks.
