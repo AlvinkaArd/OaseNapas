@@ -3,22 +3,29 @@ package main_latihanpernapasan;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer; 
-import javafx.scene.media.MediaView; 
-import javafx.util.Duration; 
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import latihan_pernapasan.LatihanPernapasan;
-import java.util.logging.Logger; 
+import java.util.logging.Logger;
 
 public class BreathingController implements Initializable {
 
-    private static final Logger LOGGER = Logger.getLogger(BreathingController.class.getName()); // Inisialisasi Logger
+    private static final Logger LOGGER = Logger.getLogger(BreathingController.class.getName());
 
     @FXML
     private Label instructionLabel;
@@ -40,9 +47,9 @@ public class BreathingController implements Initializable {
     private Label durasiDisplayLabel;
 
     @FXML
-    private MediaView backgroundMediaView; // FXML ID untuk MediaView
+    private MediaView backgroundMediaView;
 
-    private MediaPlayer backgroundMediaPlayer; // MediaPlayer untuk video background
+    private MediaPlayer backgroundMediaPlayer;
     private BreathingModel model;
     private AnimationTimer breathingTimer;
     private long startTime;
@@ -75,26 +82,20 @@ public class BreathingController implements Initializable {
     }
 
     private void setupBackgroundVideo() {
-        String videoFileName = "bgDaun1.mp4"; 
-        URL videoUrl = getClass().getResource("/Resources/Audio/" + videoFileName); 
+        String videoFileName = "bgDaun1.mp4";
+        URL videoUrl = getClass().getResource("/Resources/Audio/" + videoFileName);
 
         if (videoUrl != null) {
             Media media = new Media(videoUrl.toExternalForm());
             backgroundMediaPlayer = new MediaPlayer(media);
 
-            // Bind MediaView ke MediaPlayer
             backgroundMediaView.setMediaPlayer(backgroundMediaPlayer);
-
-            // Atur agar video loop terus-menerus
             backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            // Matikan suara video jika itu hanya background visual
             backgroundMediaPlayer.setMute(true);
 
-            // Pastikan video dimulai saat scene dimuat
-            // backgroundMediaPlayer.play(); // Bisa dipanggil di sini atau di event start breathing
-             LOGGER.info("Background video loaded: " + videoFileName);
+            LOGGER.info("Background video loaded: " + videoFileName);
         } else {
-            LOGGER.severe("Background video file not found: /assets/videos/" + videoFileName);
+            LOGGER.severe("Background video file not found: /Resources/Audio/" + videoFileName);
         }
     }
 
@@ -121,24 +122,35 @@ public class BreathingController implements Initializable {
 
     @FXML
     private void startBreathing() {
-        startButton.setDisable(true);
-        stopButton.setDisable(false);
+        // Show confirmation dialog before starting
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Konfirmasi Mulai Latihan");
+        alert.setHeaderText("Anda siap mulai latihan?");
+        alert.setContentText("Silahkan cari tempat dan posisi ternyaman anda sebelum mulai.");
 
-        // Pastikan video diputar saat latihan dimulai
-        if (backgroundMediaPlayer != null) {
-            backgroundMediaPlayer.play();
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) { // Changed to ButtonType.OK for a standard "OK" button
+            startButton.setDisable(true);
+            stopButton.setDisable(false);
+
+            if (backgroundMediaPlayer != null) {
+                backgroundMediaPlayer.play();
+            }
+
+            currentTarikDuration = model.tarikDurationProperty().get();
+            currentTahanDuration = model.tahanDurationProperty().get();
+            currentBuangDuration = model.buangDurationProperty().get();
+
+            startTime = System.nanoTime();
+            phaseStartTime = System.nanoTime();
+            currentPhase = BreathingPhase.TARIK;
+            model.setInstructionText("Tarik!");
+
+            breathingTimer.start();
+        } else {
+            // User cancelled, do not start the exercise
+            LOGGER.info("Latihan dibatalkan oleh pengguna.");
         }
-
-        currentTarikDuration = model.tarikDurationProperty().get();
-        currentTahanDuration = model.tahanDurationProperty().get();
-        currentBuangDuration = model.buangDurationProperty().get();
-
-        startTime = System.nanoTime();
-        phaseStartTime = System.nanoTime();
-        currentPhase = BreathingPhase.TARIK;
-        model.setInstructionText("Tarik!");
-
-        breathingTimer.start();
     }
 
     @FXML
@@ -149,9 +161,23 @@ public class BreathingController implements Initializable {
         model.setInstructionText("Latihan Selesai.");
         model.setCountdownText("00:00");
 
-        // Hentikan video saat latihan selesai
         if (backgroundMediaPlayer != null) {
             backgroundMediaPlayer.stop();
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Latihan Selesai");
+        alert.setHeaderText("Latihan pernapasan telah selesai.");
+        alert.setContentText("Apakah Anda ingin kembali ke halaman utama?");
+
+        ButtonType buttonYes = new ButtonType("Ya");
+        ButtonType buttonNo = new ButtonType("Tidak");
+
+        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == buttonYes) {
+            returnToMainPage();
         }
     }
 
@@ -197,5 +223,27 @@ public class BreathingController implements Initializable {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void returnToMainPage() {
+        try {
+            URL mainPageUrl = getClass().getResource("/main_page/FXMLMainPage.fxml");
+            if (mainPageUrl == null) {
+                LOGGER.severe("MainPage.fxml not found. Check the path.");
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(mainPageUrl);
+            Parent root = loader.load();
+
+            Scene currentScene = startButton.getScene();
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+            } else {
+                LOGGER.warning("Current scene is null. Cannot return to main page.");
+            }
+        } catch (IOException e) {
+            LOGGER.severe("Failed to load the main page FXML: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
