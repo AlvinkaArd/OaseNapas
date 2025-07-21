@@ -42,6 +42,7 @@ public class FXMLMainPageController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Rekomendasi page");
+        stage.setMaximized(true); 
         stage.show();
         System.out.println("Ke halaman rekomendasi");
     }

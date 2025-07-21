@@ -36,6 +36,7 @@ public final class NavigationUtil {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(newScene);
             stage.setTitle(title);
+            stage.setMaximized(true); 
             stage.show();
             
             LOGGER.info("Successfully navigated to: " + title);
@@ -80,6 +81,7 @@ public final class NavigationUtil {
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setTitle(Constants.LATIHAN_PERNAPASAN_TITLE);
             stage.setScene(new Scene(root));
+            stage.setMaximized(true); 
             stage.show();
             return loader; 
         } catch (IOException e) {
@@ -109,6 +111,7 @@ public final class NavigationUtil {
              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
              Scene scene = new Scene(root);
              stage.setScene(scene);
+             stage.setMaximized(true); 
              stage.show();
         } catch (IOException e) {
             e.printStackTrace();

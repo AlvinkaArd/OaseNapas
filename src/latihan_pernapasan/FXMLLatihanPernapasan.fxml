@@ -16,18 +16,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latihan_pernapasan.LatihanPernapasanController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="1274.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="latihan_pernapasan.LatihanPernapasanController">
     <children>
-        <ImageView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-                   pickOnBounds="true" preserveRatio="false">
+        <ImageView pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="0.0">
             <image>
                 <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
             </image>
         </ImageView>
 
-        <VBox alignment="TOP_CENTER" spacing="20.0"
-              AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0"
-              maxHeight="Infinity" maxWidth="Infinity">
+        <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
                 <Label text="OaseNapas: Latihan Pernapasan" textFill="#6e4823">
                     <font>
@@ -56,7 +53,7 @@
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Spinner fx:id="spDurasi" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Spinner fx:id="spDurasi" maxWidth="Infinity" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" />
                         <Label text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="1">
                             <font>
                                 <Font name="System Bold" size="13.0" />
@@ -88,9 +85,9 @@
                             </font>
                         </Label>
                         <Label fx:id="labelStatus" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <ChoiceBox fx:id="cbPolaPernapasan" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="Infinity" />
-                        <ChoiceBox fx:id="cbMusik" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="3" maxWidth="Infinity" />
-                        <ChoiceBox fx:id="cbSuaraPemandu" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="4" maxWidth="Infinity" />
+                        <ChoiceBox fx:id="cbPolaPernapasan" maxWidth="Infinity" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="cbMusik" maxWidth="Infinity" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="cbSuaraPemandu" maxWidth="Infinity" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     </children>
                     <VBox.margin>
                         <Insets left="20.0" right="20.0" />

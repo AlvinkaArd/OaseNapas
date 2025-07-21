@@ -21,6 +21,7 @@ public class GUI_OaseNapas extends Application {
             stage.setTitle(APP_TITLE);
             stage.setScene(scene);
             stage.setResizable(true);
+            stage.setMaximized(true); 
             stage.show();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Kesalahan saat memulai aplikasi: " + e.getMessage(), e);

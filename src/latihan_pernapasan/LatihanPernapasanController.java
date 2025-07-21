@@ -145,6 +145,8 @@ public class LatihanPernapasanController implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setMaximized(true); 
             stage.show();
 
         } catch (IOException e) {

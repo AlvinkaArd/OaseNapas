@@ -151,6 +151,7 @@ public class RekomendasiSolusiController {
         stage.setScene(scene);
         stage.setTitle("main page");
         System.out.println("Ke halaman main");
+        stage.setMaximized(true); 
         stage.show(); 
     }
 }
