@@ -6,43 +6,46 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.media.Media; // Import ini
-import javafx.scene.media.MediaPlayer; // Import ini
-import javafx.scene.media.MediaView; // Import ini
-import javafx.util.Duration; // Import ini
+// Removed Spinner imports as they are no longer in FXML
+// import javafx.scene.control.Spinner;
+// import javafx.scene.control.SpinnerValueFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import latihan_pernapasan.LatihanPernapasan;
-import java.util.logging.Logger; // Tambahkan Logger
+import latihan_pernapasan.LatihanPernapasan; // Import your LatihanPernapasan model
 
 public class BreathingController implements Initializable {
-
-    private static final Logger LOGGER = Logger.getLogger(BreathingController.class.getName()); // Inisialisasi Logger
 
     @FXML
     private Label instructionLabel;
     @FXML
     private Label countdownLabel;
 
+    // Removed @FXML for Spinners
+    // @FXML
+    // private Spinner<Integer> tarikDurationSpinner;
+    // @FXML
+    // private Spinner<Integer> tahanDurationSpinner;
+    // @FXML
+    // private Spinner<Integer> buangDurationSpinner;
+    // @FXML
+    // private Spinner<Integer> totalDurationSpinner;
+
     @FXML
     private Button startButton;
     @FXML
     private Button stopButton;
 
+    // Labels to display passed data (already present in your FXML)
     @FXML
-    private Label tarikDisplayLabel;
+    private Label tarikDisplayLabel; // Corresponds to Tarik:
     @FXML
-    private Label tahanDisplayLabel;
+    private Label tahanDisplayLabel; // Corresponds to Tahan:
     @FXML
-    private Label buangDisplayLabel;
+    private Label buangDisplayLabel; // Corresponds to Buang:
     @FXML
-    private Label durasiDisplayLabel;
+    private Label durasiDisplayLabel; // Corresponds to Durasi Total:
 
-    @FXML
-    private MediaView backgroundMediaView; // FXML ID untuk MediaView
-
-    private MediaPlayer backgroundMediaPlayer; // MediaPlayer untuk video background
     private BreathingModel model;
     private AnimationTimer breathingTimer;
     private long startTime;
@@ -58,9 +61,10 @@ public class BreathingController implements Initializable {
     private long phaseStartTime;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle rb) {
         model = new BreathingModel();
 
+        // Bind UI elements to Model properties
         instructionLabel.textProperty().bind(model.instructionTextProperty());
         countdownLabel.textProperty().bind(model.countdownTextProperty());
 
@@ -70,57 +74,33 @@ public class BreathingController implements Initializable {
                 updateBreathing(now);
             }
         };
-
-        // Inisialisasi video background
-        setupBackgroundVideo();
     }
 
-    // Metode baru untuk mengatur video background
-    private void setupBackgroundVideo() {
-        // Ganti dengan path video kamu yang sebenarnya.
-        // Contoh: video di src/main/resources/videos/water_loop.mp4
-        String videoFileName = "ocean_waves.mp4"; // Nama file video kamu
-        URL videoUrl = getClass().getResource("/assets/videos/" + videoFileName); // Sesuaikan path resources
-
-        if (videoUrl != null) {
-            Media media = new Media(videoUrl.toExternalForm());
-            backgroundMediaPlayer = new MediaPlayer(media);
-
-            // Bind MediaView ke MediaPlayer
-            backgroundMediaView.setMediaPlayer(backgroundMediaPlayer);
-
-            // Atur agar video loop terus-menerus
-            backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            // Matikan suara video jika itu hanya background visual
-            backgroundMediaPlayer.setMute(true);
-
-            // Pastikan video dimulai saat scene dimuat
-            // backgroundMediaPlayer.play(); // Bisa dipanggil di sini atau di event start breathing
-             LOGGER.info("Background video loaded: " + videoFileName);
-        } else {
-            LOGGER.severe("Background video file not found: /assets/videos/" + videoFileName);
-            // Opsi: Tetapkan background fallback jika video tidak ditemukan
-            // backgroundMediaView.setStyle("-fx-background-color: lightblue;");
-        }
-    }
-
+    // Method to receive data from LatihanPernapasanController
     public void setLatihanData(LatihanPernapasan latihan) {
         if (latihan != null) {
-            tarikDisplayLabel.setText(latihan.getTarik() + " detik");
+            // Update the Labels with the received data
+            tarikDisplayLabel.setText(latihan.getTarik() + " detik"); // Add unit for clarity
             tahanDisplayLabel.setText(latihan.getTahan() + " detik");
             buangDisplayLabel.setText(latihan.getBuang() + " detik");
             durasiDisplayLabel.setText(String.valueOf(latihan.getDurasi()) + " menit");
 
+            // Also, set the values in your BreathingModel directly
+            // Now that spinners are gone, the model's properties are not automatically updated from them.
+            // We need to set them here for the timer logic.
             try {
                 model.tarikDurationProperty().set(Integer.parseInt(latihan.getTarik()));
                 model.tahanDurationProperty().set(Integer.parseInt(latihan.getTahan()));
                 model.buangDurationProperty().set(Integer.parseInt(latihan.getBuang()));
                 model.totalDurationMinutesProperty().set(latihan.getDurasi());
             } catch (NumberFormatException e) {
-                LOGGER.severe("Error parsing breathing durations: " + e.getMessage());
+                System.err.println("Error parsing breathing durations: " + e.getMessage());
+                // Consider adding more robust error handling, e.g., default values or an alert
+                // For now, setting to 0 or a safe default if parsing fails
                 model.tarikDurationProperty().set(0);
                 model.tahanDurationProperty().set(0);
                 model.buangDurationProperty().set(0);
+                // total duration is already an int, no parsing needed
             }
         }
     }
@@ -130,11 +110,7 @@ public class BreathingController implements Initializable {
         startButton.setDisable(true);
         stopButton.setDisable(false);
 
-        // Pastikan video diputar saat latihan dimulai
-        if (backgroundMediaPlayer != null) {
-            backgroundMediaPlayer.play();
-        }
-
+        // Get the values directly from the model, which were set by setLatihanData
         currentTarikDuration = model.tarikDurationProperty().get();
         currentTahanDuration = model.tahanDurationProperty().get();
         currentBuangDuration = model.buangDurationProperty().get();
@@ -154,15 +130,10 @@ public class BreathingController implements Initializable {
         stopButton.setDisable(true);
         model.setInstructionText("Latihan Selesai.");
         model.setCountdownText("00:00");
-
-        // Hentikan video saat latihan selesai
-        if (backgroundMediaPlayer != null) {
-            backgroundMediaPlayer.stop();
-        }
     }
 
     private void updateBreathing(long now) {
-        long elapsedTime = (now - startTime) / 1_000_000_000;
+        long elapsedTime = (now - startTime) / 1_000_000_000; // Total time elapsed in seconds
         long remainingTotalTime = (model.getTotalDurationMillis() / 1000) - elapsedTime;
 
         if (remainingTotalTime <= 0) {
@@ -170,9 +141,10 @@ public class BreathingController implements Initializable {
             return;
         }
 
+        // Update total countdown
         model.setCountdownText(formatTime((int) remainingTotalTime));
 
-        long phaseElapsedTime = (now - phaseStartTime) / 1_000_000_000;
+        long phaseElapsedTime = (now - phaseStartTime) / 1_000_000_000; // Time elapsed in current phase
 
         switch (currentPhase) {
             case TARIK:
@@ -183,6 +155,7 @@ public class BreathingController implements Initializable {
                 }
                 break;
             case TAHAN:
+                // Handle case where 'tahan' duration might be 0
                 if (currentTahanDuration == 0 || phaseElapsedTime >= currentTahanDuration) {
                     currentPhase = BreathingPhase.BUANG;
                     model.setInstructionText("Buang!");
@@ -191,7 +164,7 @@ public class BreathingController implements Initializable {
                 break;
             case BUANG:
                 if (phaseElapsedTime >= currentBuangDuration) {
-                    currentPhase = BreathingPhase.TARIK;
+                    currentPhase = BreathingPhase.TARIK; // Loop back to Tarik
                     model.setInstructionText("Tarik!");
                     phaseStartTime = now;
                 }
