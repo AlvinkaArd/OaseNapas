@@ -19,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utils.Constants;
 import utils.NavigationUtil;
+// import main_latihanpernapasan.BreathingController; // Tidak lagi langsung memanggil BreathingController dari sini
 
 public class LatihanPernapasanController implements Initializable {
 
@@ -29,7 +30,6 @@ public class LatihanPernapasanController implements Initializable {
     @FXML
     private ChoiceBox<String> cbPolaPernapasan, cbMusik, cbSuaraPemandu;
 
-    // Tambahkan MediaPlayer untuk musik latar
     private MediaPlayer musicPlayer;
 
     @Override
@@ -56,10 +56,9 @@ public class LatihanPernapasanController implements Initializable {
         cbSuaraPemandu.getItems().addAll(Constants.SUARA_PEMANDU_OPTIONS);
     }
 
-    // Hanya setup listener untuk musik
     private void setupMusicListener() {
         cbMusik.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            stopMusic(); // Hentikan musik yang sedang diputar
+            stopMusic();
 
             if (newVal != null && !newVal.equals("Tidak ada")) {
                 playMusic(newVal.toLowerCase() + ".mp3");
@@ -67,14 +66,13 @@ public class LatihanPernapasanController implements Initializable {
         });
     }
 
-    // Method untuk memutar musik
     public void playMusic(String audioFile) {
         try {
-            URL resource = getClass().getResource("Resources/Audio/" + audioFile);
+            URL resource = getClass().getResource("Resources/Audio/" + audioFile); // Pastikan path ini benar relatif terhadap LatihanPernapasanController
             if (resource != null) {
                 Media media = new Media(resource.toString());
                 musicPlayer = new MediaPlayer(media);
-                musicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop musik
+                musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 musicPlayer.play();
             } else {
                 System.out.println("File musik tidak ditemukan: " + audioFile);
@@ -84,14 +82,12 @@ public class LatihanPernapasanController implements Initializable {
         }
     }
 
-    // Method untuk menghentikan musik
     private void stopMusic() {
         if (musicPlayer != null) {
             musicPlayer.stop();
         }
     }
 
-    // Method yang sudah ada (tidak diubah)
     @FXML
     public void jadwalActionButton(ActionEvent event) {
         NavigationUtil.navigateToSchedulePage(event);
@@ -102,12 +98,10 @@ public class LatihanPernapasanController implements Initializable {
         NavigationUtil.navigateToMainPage(event);
     }
 
-    //tambahan passdata
     @FXML
     public void mulaiButton(ActionEvent event) throws IOException {
-        stopMusic(); // Hentikan musik saat mulai latihan
+        stopMusic();
 
-        // 1. Ambil data dari UI
         int durasi = spDurasi.getValue();
         String polaPernapasan = cbPolaPernapasan.getValue();
         String musikLatar = cbMusik.getValue();
@@ -116,45 +110,46 @@ public class LatihanPernapasanController implements Initializable {
         String tahan = tfTahan.getText();
         String buang = tfBuang.getText();
 
-
-        // 2. Buat objek LatihanPernapasan
-        // Perhatikan bahwa "gejala" tidak diambil dari UI di sini. Jika Anda memiliki
-        // ChoiceBox untuk gejala, Anda harus menambahkannya. Untuk sementara, kita pakai ""
+        // Buat objek LatihanPernapasan yang lengkap
         LatihanPernapasan latihanBaru = new LatihanPernapasan(
-                musikLatar, // musikLatar
-                polaPernapasan, // gejala, kita gunakan polaPernapasan sebagai pengganti sementara
-                suaraPemandu, // suaraPemandu
-                durasi,       // durasi
-                tarik,        // tarik
-                tahan,        // tahan
-                buang         // buang
+                musikLatar,
+                polaPernapasan, // Menggunakan polaPernapasan sebagai 'gejala'
+                suaraPemandu,
+                durasi,
+                tarik,
+                tahan,
+                buang
         );
 
         try {
-            // 3. Load FXML untuk scene baru (MulaiLatihan.fxml)
+            // Muat FXML untuk MulaiLatihanController (misal: MulaiLatihanView.fxml)
+            // Pastikan path ini benar: "/latihan_pernapasan/MulaiLatihanView.fxml"
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/latihan_pernapasan/MulaiLatihan.fxml"));
             Parent root = loader.load();
 
-            // 4. Dapatkan controller dari scene baru
+            // Dapatkan controller dari scene baru
             MulaiLatihanController mulaiLatihanController = loader.getController();
 
-            // 5. Teruskan objek LatihanPernapasan ke controller scene baru
+            // Teruskan objek LatihanPernapasan ke MulaiLatihanController
             mulaiLatihanController.setLatihanData(latihanBaru);
 
-            // 6. Tampilkan scene baru
+            // Tampilkan scene baru
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.setMaximized(true); 
+            // stage.setMaximized(true); // Opsional, sesuaikan kebutuhan Anda
             stage.show();
 
+            // Opsional: Tutup stage sebelumnya jika Anda tidak ingin kembali lagi ke LatihanPernapasan
+            // ((Stage)((Node)event.getSource()).getScene().getWindow()).close();
+
         } catch (IOException e) {
-            System.err.println("Gagal memuat halaman MulaiLatihan: " + e.getMessage());
-            e.printStackTrace();}
+            System.err.println("Gagal memuat halaman MulaiLatihanView: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    // Getter methods (tidak diubah)
     public Spinner<Integer> getSpDurasi() {
         return spDurasi;
     }

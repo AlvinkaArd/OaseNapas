@@ -24,7 +24,7 @@
             </image>
         </ImageView>
 
-        <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+        <VBox alignment="TOP_CENTER" layoutX="221.33333333333334" maxHeight="Infinity" maxWidth="Infinity" prefHeight="787.0" prefWidth="821.0" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="232.0" AnchorPane.topAnchor="14.0">
             <children>
                 <Label text="OaseNapas: Latihan Pernapasan" textFill="#6e4823">
                     <font>
@@ -34,7 +34,7 @@
                         <Insets top="40.0" />
                     </VBox.margin>
                 </Label>
-                <GridPane hgap="10.0" vgap="10.0" VBox.vgrow="NEVER">
+                <GridPane hgap="10.0" prefHeight="349.0" prefWidth="1196.0" vgap="10.0" VBox.vgrow="NEVER">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="482.0" /> </columnConstraints>
@@ -48,18 +48,18 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Durasi Latihan (Menit):" textFill="#36290c">
+                        <Label prefHeight="19.0" prefWidth="165.0" style="-fx-background-color: white;" text="Durasi Latihan (Menit):" textFill="#36290c">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
                         <Spinner fx:id="spDurasi" maxWidth="Infinity" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" />
-                        <Label text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="1">
+                        <Label prefHeight="19.0" prefWidth="157.0" style="-fx-background-color: white;" text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="1">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label text="Masukkan Pola" textFill="#36290c" GridPane.rowIndex="2">
+                        <Label prefHeight="19.0" prefWidth="163.0" style="-fx-background-color: white;" text="Masukkan Pola:" textFill="#36290c" GridPane.rowIndex="2">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -74,12 +74,12 @@
                                 <TextField fx:id="tfBuang" prefWidth="70.0" promptText="0" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
-                        <Label text="Musik Latar:" textFill="#36290c" GridPane.rowIndex="3">
+                        <Label prefHeight="19.0" prefWidth="175.0" style="-fx-background-color: white;" text="Musik Latar:" textFill="#36290c" GridPane.rowIndex="3">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label text="Suara Pemandu:" textFill="#36290c" GridPane.rowIndex="4">
+                        <Label prefHeight="19.0" prefWidth="163.0" style="-fx-background-color: white;" text="Suara Pemandu:" textFill="#36290c" GridPane.rowIndex="4">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>

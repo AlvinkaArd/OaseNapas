@@ -52,18 +52,18 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Durasi Latihan (Menit):" textFill="#36290c" GridPane.rowIndex="1">
+                        <Label style="-fx-background-color: white;" text="Durasi Latihan (Menit):" textFill="#36290c" GridPane.rowIndex="1">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
                         <Spinner fx:id="spDurasi" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="2">
+                        <Label prefHeight="19.0" prefWidth="225.0" style="-fx-background-color: white;" text="Pilih Gejala:" textFill="#36290c" GridPane.rowIndex="2">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label text="Pola Pernapasan:" textFill="#36290c" GridPane.rowIndex="3">
+                        <Label prefHeight="19.0" prefWidth="223.0" style="-fx-background-color: white;" text="Pola Pernapasan:" textFill="#36290c" GridPane.rowIndex="3">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -78,12 +78,12 @@
                                 <TextField fx:id="tfBuang" prefWidth="70.0" promptText="0" />
                             </children>
                         </HBox>
-                        <Label text="Musik Latar:" textFill="#36290c" GridPane.rowIndex="4">
+                        <Label prefHeight="19.0" prefWidth="209.0" style="-fx-background-color: white;" text="Musik Latar:" textFill="#36290c" GridPane.rowIndex="4">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label text="Suara Pemandu:" textFill="#36290c" GridPane.rowIndex="5">
+                        <Label prefHeight="19.0" prefWidth="244.0" style="-fx-background-color: white;" text="Suara Pemandu:" textFill="#36290c" GridPane.rowIndex="5">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -91,13 +91,13 @@
                         <ChoiceBox fx:id="cbGejala" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <ChoiceBox fx:id="cbMusik" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <ChoiceBox fx:id="cbSuaraPemandu" prefHeight="25.0" prefWidth="151.0" style="-fx-background-color: c3b390;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label text="Waktu:" textFill="#36290c" GridPane.rowIndex="6">
+                        <Label prefHeight="19.0" prefWidth="222.0" style="-fx-background-color: white;" text="Waktu:" textFill="#36290c" GridPane.rowIndex="6">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
                         <DatePicker fx:id="dpWaktuLatihan" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label text="Nama Sesi:" textFill="#36290c">
+                        <Label prefHeight="19.0" prefWidth="213.0" style="-fx-background-color: white;" text="Nama Sesi:" textFill="#36290c">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>

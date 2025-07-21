@@ -3,78 +3,83 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="1274.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main_latihanpernapasan.BreathingController">
-   <children>
-      <ImageView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-                 pickOnBounds="true" preserveRatio="false">
-         <image>
-            <Image url="@../latihan_pernapasan/WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
-         </image>
-      </ImageView>
+    <children>
+        <ImageView fitHeight="815.0" fitWidth="1274.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+                <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
+            </image>
+        </ImageView>
 
-      <VBox alignment="CENTER" spacing="20.0"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-            maxHeight="Infinity" maxWidth="Infinity">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-         <children>
-            <Label text="Latihan Pernapasan" textFill="#6e4823"> <font>
-                  <Font name="System Bold" size="28.0" /> </font>
-            </Label>
-            <Label fx:id="instructionLabel" text="Siap untuk memulai!" textFill="#36290c"> <font>
-                  <Font name="System Bold" size="22.0" /> </font>
-            </Label>
-            <Label fx:id="countdownLabel" text="00:00" textFill="#000000"> <font>
-                  <Font name="System Bold" size="64.0" /> </font>
-               <VBox.margin>
-                  <Insets top="10.0" bottom="10.0" /> </VBox.margin>
-            </Label>
-            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
-               <children>
-                  <Label text="Tarik (detik):" textFill="#36290c" />
-                  <Spinner fx:id="tarikDurationSpinner" prefWidth="70.0" maxWidth="Infinity" HBox.hgrow="SOMETIMES" />
-                  <Label text="Tahan (detik):" textFill="#36290c" />
-                  <Spinner fx:id="tahanDurationSpinner" prefWidth="70.0" maxWidth="Infinity" HBox.hgrow="SOMETIMES" />
-                  <Label text="Buang (detik):" textFill="#36290c" />
-                  <Spinner fx:id="buangDurationSpinner" prefWidth="70.0" maxWidth="Infinity" HBox.hgrow="SOMETIMES" />
-               </children>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
-               <children>
-                  <Label text="Total Durasi (menit):" textFill="#36290c" />
-                  <Spinner fx:id="totalDurationSpinner" prefWidth="70.0" maxWidth="Infinity" HBox.hgrow="SOMETIMES" />
-               </children>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button fx:id="startButton" onAction="#startBreathing" text="Mulai" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #c3b390; -fx-text-fill: #36290c;">
-                     <font><Font name="System Bold" size="14.0" /></font>
-                  </Button>
-                  <Button fx:id="stopButton" disable="true" onAction="#stopBreathing" text="Hentikan" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #c3b390; -fx-text-fill: #36290c;">
-                     <font><Font name="System Bold" size="14.0" /></font>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" /> </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" /> </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+        <VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <children>
+                <VBox prefHeight="0.0" prefWidth="1206.0" VBox.vgrow="ALWAYS" /> <Label fx:id="instructionLabel" text="Mulai Latihan Pernapasan" textFill="#2f4f4f">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                    </Label>
+                <Label fx:id="countdownLabel" text="00:00" textFill="#8b0000">
+                    <font>
+                        <Font name="System Bold" size="48.0" />
+                    </font>
+                </Label>
+
+                <GridPane alignment="CENTER" hgap="10.0" vgap="10.0" VBox.vgrow="NEVER">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Durasi Total:" GridPane.rowIndex="0" />
+                        <Label fx:id="durasiDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Tarik:" GridPane.rowIndex="1" />
+                        <Label fx:id="tarikDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="Tahan:" GridPane.rowIndex="2" />
+                        <Label fx:id="tahanDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label text="Buang:" GridPane.rowIndex="3" />
+                        <Label fx:id="buangDisplayLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="100.0" right="100.0" />
+                    </VBox.margin>
+                </GridPane>
+
+                <HBox alignment="CENTER" spacing="40.0" VBox.vgrow="NEVER">
+                    <children>
+                        <Button fx:id="startButton" onAction="#startBreathing" prefHeight="45.0" prefWidth="150.0" text="Mulai Latihan" />
+                        <Button fx:id="stopButton" disable="true" onAction="#stopBreathing" prefHeight="45.0" prefWidth="150.0" text="Berhenti" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+
+                <VBox VBox.vgrow="ALWAYS" /> </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </children>
 </AnchorPane>

@@ -1,38 +1,49 @@
-package main_latihanpernapasan; // Sesuaikan dengan package Anda
+package main_latihanpernapasan;
 
-import main_latihanpernapasan.BreathingModel; // Pastikan ini sesuai dengan package Anda
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.media.Media; // Import ini
+import javafx.scene.media.MediaPlayer; // Import ini
+import javafx.scene.media.MediaView; // Import ini
+import javafx.util.Duration; // Import ini
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import latihan_pernapasan.LatihanPernapasan;
+import java.util.logging.Logger; // Tambahkan Logger
 
 public class BreathingController implements Initializable {
+
+    private static final Logger LOGGER = Logger.getLogger(BreathingController.class.getName()); // Inisialisasi Logger
 
     @FXML
     private Label instructionLabel;
     @FXML
     private Label countdownLabel;
-    @FXML
-    private Spinner<Integer> tarikDurationSpinner;
-    @FXML
-    private Spinner<Integer> tahanDurationSpinner;
-    @FXML
-    private Spinner<Integer> buangDurationSpinner;
-    @FXML
-    private Spinner<Integer> totalDurationSpinner;
+
     @FXML
     private Button startButton;
     @FXML
     private Button stopButton;
 
-    private BreathingModel model; // Instansiasi Model
+    @FXML
+    private Label tarikDisplayLabel;
+    @FXML
+    private Label tahanDisplayLabel;
+    @FXML
+    private Label buangDisplayLabel;
+    @FXML
+    private Label durasiDisplayLabel;
+
+    @FXML
+    private MediaView backgroundMediaView; // FXML ID untuk MediaView
+
+    private MediaPlayer backgroundMediaPlayer; // MediaPlayer untuk video background
+    private BreathingModel model;
     private AnimationTimer breathingTimer;
     private long startTime;
     private int currentTarikDuration;
@@ -48,40 +59,70 @@ public class BreathingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        model = new BreathingModel(); // Inisialisasi Model
+        model = new BreathingModel();
 
-        // Bind UI elements to Model properties
         instructionLabel.textProperty().bind(model.instructionTextProperty());
         countdownLabel.textProperty().bind(model.countdownTextProperty());
 
-        // Inisialisasi spinner dan bind ke properti model
-        SpinnerValueFactory.IntegerSpinnerValueFactory tarikFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 60, model.tarikDurationProperty().get());
-        tarikDurationSpinner.setValueFactory(tarikFactory);
-        model.tarikDurationProperty().bind(tarikDurationSpinner.valueProperty()); // Bind dua arah
-
-        SpinnerValueFactory.IntegerSpinnerValueFactory tahanFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, model.tahanDurationProperty().get());
-        tahanDurationSpinner.setValueFactory(tahanFactory);
-        model.tahanDurationProperty().bind(tahanDurationSpinner.valueProperty());
-
-        SpinnerValueFactory.IntegerSpinnerValueFactory buangFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 60, model.buangDurationProperty().get());
-        buangDurationSpinner.setValueFactory(buangFactory);
-        model.buangDurationProperty().bind(buangDurationSpinner.valueProperty());
-
-        SpinnerValueFactory.IntegerSpinnerValueFactory totalFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 60, model.totalDurationMinutesProperty().get());
-        totalDurationSpinner.setValueFactory(totalFactory);
-        model.totalDurationMinutesProperty().bind(totalDurationSpinner.valueProperty());
-
-        // Inisialisasi Timer
         breathingTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 updateBreathing(now);
             }
         };
+
+        // Inisialisasi video background
+        setupBackgroundVideo();
+    }
+
+    // Metode baru untuk mengatur video background
+    private void setupBackgroundVideo() {
+        // Ganti dengan path video kamu yang sebenarnya.
+        // Contoh: video di src/main/resources/videos/water_loop.mp4
+        String videoFileName = "ocean_waves.mp4"; // Nama file video kamu
+        URL videoUrl = getClass().getResource("/assets/videos/" + videoFileName); // Sesuaikan path resources
+
+        if (videoUrl != null) {
+            Media media = new Media(videoUrl.toExternalForm());
+            backgroundMediaPlayer = new MediaPlayer(media);
+
+            // Bind MediaView ke MediaPlayer
+            backgroundMediaView.setMediaPlayer(backgroundMediaPlayer);
+
+            // Atur agar video loop terus-menerus
+            backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            // Matikan suara video jika itu hanya background visual
+            backgroundMediaPlayer.setMute(true);
+
+            // Pastikan video dimulai saat scene dimuat
+            // backgroundMediaPlayer.play(); // Bisa dipanggil di sini atau di event start breathing
+             LOGGER.info("Background video loaded: " + videoFileName);
+        } else {
+            LOGGER.severe("Background video file not found: /assets/videos/" + videoFileName);
+            // Opsi: Tetapkan background fallback jika video tidak ditemukan
+            // backgroundMediaView.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
+    public void setLatihanData(LatihanPernapasan latihan) {
+        if (latihan != null) {
+            tarikDisplayLabel.setText(latihan.getTarik() + " detik");
+            tahanDisplayLabel.setText(latihan.getTahan() + " detik");
+            buangDisplayLabel.setText(latihan.getBuang() + " detik");
+            durasiDisplayLabel.setText(String.valueOf(latihan.getDurasi()) + " menit");
+
+            try {
+                model.tarikDurationProperty().set(Integer.parseInt(latihan.getTarik()));
+                model.tahanDurationProperty().set(Integer.parseInt(latihan.getTahan()));
+                model.buangDurationProperty().set(Integer.parseInt(latihan.getBuang()));
+                model.totalDurationMinutesProperty().set(latihan.getDurasi());
+            } catch (NumberFormatException e) {
+                LOGGER.severe("Error parsing breathing durations: " + e.getMessage());
+                model.tarikDurationProperty().set(0);
+                model.tahanDurationProperty().set(0);
+                model.buangDurationProperty().set(0);
+            }
+        }
     }
 
     @FXML
@@ -89,7 +130,11 @@ public class BreathingController implements Initializable {
         startButton.setDisable(true);
         stopButton.setDisable(false);
 
-        // Ambil nilai dari model (yang sudah ter-bind dari spinner)
+        // Pastikan video diputar saat latihan dimulai
+        if (backgroundMediaPlayer != null) {
+            backgroundMediaPlayer.play();
+        }
+
         currentTarikDuration = model.tarikDurationProperty().get();
         currentTahanDuration = model.tahanDurationProperty().get();
         currentBuangDuration = model.buangDurationProperty().get();
@@ -97,8 +142,7 @@ public class BreathingController implements Initializable {
         startTime = System.nanoTime();
         phaseStartTime = System.nanoTime();
         currentPhase = BreathingPhase.TARIK;
-        model.setInstructionText("Tarik!"); // Update model
-        // countdownLabel sudah terikat ke model.countdownTextProperty()
+        model.setInstructionText("Tarik!");
 
         breathingTimer.start();
     }
@@ -108,12 +152,17 @@ public class BreathingController implements Initializable {
         breathingTimer.stop();
         startButton.setDisable(false);
         stopButton.setDisable(true);
-        model.setInstructionText("Latihan Selesai."); // Update model
-        model.setCountdownText("00:00"); // Update model
+        model.setInstructionText("Latihan Selesai.");
+        model.setCountdownText("00:00");
+
+        // Hentikan video saat latihan selesai
+        if (backgroundMediaPlayer != null) {
+            backgroundMediaPlayer.stop();
+        }
     }
 
     private void updateBreathing(long now) {
-        long elapsedTime = (now - startTime) / 1_000_000_000; // Total waktu berlalu dalam detik
+        long elapsedTime = (now - startTime) / 1_000_000_000;
         long remainingTotalTime = (model.getTotalDurationMillis() / 1000) - elapsedTime;
 
         if (remainingTotalTime <= 0) {
@@ -121,30 +170,29 @@ public class BreathingController implements Initializable {
             return;
         }
 
-        // Update total countdown di model
         model.setCountdownText(formatTime((int) remainingTotalTime));
 
-        long phaseElapsedTime = (now - phaseStartTime) / 1_000_000_000; // Waktu berlalu dalam fase saat ini
+        long phaseElapsedTime = (now - phaseStartTime) / 1_000_000_000;
 
         switch (currentPhase) {
             case TARIK:
                 if (phaseElapsedTime >= currentTarikDuration) {
                     currentPhase = BreathingPhase.TAHAN;
-                    model.setInstructionText("Tahan!"); // Update model
+                    model.setInstructionText("Tahan!");
                     phaseStartTime = now;
                 }
                 break;
             case TAHAN:
-                if (phaseElapsedTime >= currentTahanDuration) {
+                if (currentTahanDuration == 0 || phaseElapsedTime >= currentTahanDuration) {
                     currentPhase = BreathingPhase.BUANG;
-                    model.setInstructionText("Buang!"); // Update model
+                    model.setInstructionText("Buang!");
                     phaseStartTime = now;
                 }
                 break;
             case BUANG:
                 if (phaseElapsedTime >= currentBuangDuration) {
-                    currentPhase = BreathingPhase.TARIK; // Kembali ke Tarik
-                    model.setInstructionText("Tarik!"); // Update model
+                    currentPhase = BreathingPhase.TARIK;
+                    model.setInstructionText("Tarik!");
                     phaseStartTime = now;
                 }
                 break;
