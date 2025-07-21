@@ -5,48 +5,56 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.StackPane?> <?import javafx.scene.layout.VBox?>    <?import javafx.geometry.Insets?>       <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main_page.FXMLMainPageController">
-   <children>
-      <ImageView fitHeight="560.0" fitWidth="1071.0" layoutX="-120.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
-         </image>
-      </ImageView>
-      <BorderPane fx:id="mainPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="867.0">
-         <center>
-            <AnchorPane prefHeight="200.0" prefWidth="656.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button layoutX="358.0" layoutY="225.0" mnemonicParsing="false" onAction="#aturJadwalButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Atur Jadwal Latihan" textFill="#36290c">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button layoutX="358.0" layoutY="144.0" mnemonicParsing="false" onAction="#mulaiLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Mulai Latihan" textFill="#36290c">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button layoutX="358.0" layoutY="305.0" mnemonicParsing="false" onAction="#riwayatLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Riwayat Latihan" textFill="#36290c">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Text fill="#6e4823" layoutX="296.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oase Napas" textAlignment="CENTER" wrappingWidth="274.19647216796875">
-                     <font>
-                        <Font name="System Bold Italic" size="36.0" />
-                     </font>
-                  </Text>
-                  <Button layoutX="358.0" layoutY="378.0" mnemonicParsing="false" onAction="#goRekomendasi" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Solusi Gejala" textFill="#36290c">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
-   </children>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main_page.FXMLMainPageController"
+            maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="555.0" prefWidth="875.0">
+    <children>
+        <ImageView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+                   pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@WhatsApp%20Image%202025-07-03%20at%2017.23.59.jpeg" />
+            </image>
+        </ImageView>
+
+        <BorderPane fx:id="mainPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+                    maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+            <center>
+                <StackPane alignment="CENTER">
+                    <VBox alignment="CENTER" spacing="15">
+                        <Text fill="#6e4823" strokeType="OUTSIDE" strokeWidth="0.0" text="Oase Napas" textAlignment="CENTER">
+                            <font>
+                                <Font name="System Bold Italic" size="36.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="30.0"/> 
+                            </VBox.margin>
+                        </Text>
+                        <Button mnemonicParsing="false" onAction="#mulaiLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Mulai Latihan" textFill="#36290c">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#aturJadwalButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Atur Jadwal Latihan" textFill="#36290c">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#riwayatLatihanButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Riwayat Latihan" textFill="#36290c">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#goRekomendasi" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: c3b390;" text="Solusi Gejala" textFill="#36290c">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </VBox>
+                </StackPane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>
