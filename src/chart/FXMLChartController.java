@@ -29,35 +29,40 @@ public class FXMLChartController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadDataAndPopulateChart();
         chartGejala.setTitle("Durasi Latihan Berdasarkan Gejala");
-    }
-       
-    /**
-     * Muat data dari file XML dan isi chart
-     */
+    } 
+
     private void loadDataAndPopulateChart() {
         collectedData = XmlUtil.loadDataFromXml(Constants.DATA_FILE);
         populateChart();
     }
     
-    /**
-     * Isi chart dengan data dari collectedData
-     */
     private void populateChart() {
-        ObservableList<PieChart.Data> series = FXCollections.observableArrayList();
+        ObservableList<PieChart.Data> chartData = chartGejala.getData(); // Ambil data yang sedang ada di chart
 
         if (collectedData != null && collectedData.getCollectedData() != null) {
             for (int i = 0; i < collectedData.getIndex(); i++) {
                 JadwalLatihan jadwal = collectedData.getCollectedData()[i];
                 if (jadwal != null) {
-                    series.add(new PieChart.Data(jadwal.getGejala(), jadwal.getDurasi()));
+                    String gejalaName = jadwal.getGejala();
+                    double durasiValue = jadwal.getDurasi();
+
+                    boolean found = false;
+                    for (PieChart.Data data : chartData) {
+                        if (data.getName().equalsIgnoreCase(gejalaName)) {
+                            data.setPieValue(durasiValue);
+                            found = true;
+                            break; 
+                        }
+                    }
+
+                    if (!found) {
+                        chartData.add(new PieChart.Data(gejalaName, durasiValue));
+                    }
                 }
             }
         }
-        
-        chartGejala.getData().clear();
-        chartGejala.setData(series);
     }
-
+    
     @FXML
     public void kembaliButton(ActionEvent event) {
         NavigationUtil.navigateToMainPage(event);
