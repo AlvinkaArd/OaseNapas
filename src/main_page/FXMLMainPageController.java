@@ -1,6 +1,12 @@
 package main_page;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+
+import javax.lang.model.element.Element;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,7 +40,8 @@ public class FXMLMainPageController {
     public void riwayatLatihanButton(ActionEvent event) {
         NavigationUtil.navigateToChartPage(event);
     }
-     @FXML
+
+    @FXML
     public void goRekomendasi(ActionEvent event) throws IOException {
         Parent scene2 = FXMLLoader.load(getClass().getResource("/solusigejala/Rekomendasi.fxml"));
         Scene scene = new Scene(scene2);
@@ -45,5 +52,26 @@ public class FXMLMainPageController {
         stage.setMaximized(true); 
         stage.show();
         System.out.println("Ke halaman rekomendasi");
+    }
+
+     /**
+     * This custom method is called from the main application class to pass the loaded data.
+     *
+     * @param xmlData The XML data as a string, or null if no data was found.
+     */
+    public void initializeWithData(String xmlData) {
+        if (xmlData != null) {
+            try {
+                // Parse the XML data here
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = (Document) builder.parse(new ByteArrayInputStream(xmlData.getBytes()));
+                ((org.w3c.dom.Node) doc.getDefaultRootElement()).normalize();
+
+            } catch (Exception e) {
+                System.err.println("Error parsing XML data.");
+                e.printStackTrace();
+            }
+        }
     }
 }
